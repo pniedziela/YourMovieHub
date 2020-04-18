@@ -1,4 +1,4 @@
-# untitled2
+# YourMovieHub
 
 ## Project setup
 ```
