@@ -1,60 +1,35 @@
 <template>
-  <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
+  <div id="app">
+    <v-app id="inspire">
+      <div>
+        <v-toolbar dark prominent src="https://wallpapercave.com/wp/wp121051.jpg">
+          <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
+          <v-toolbar-title>YourMovieHub</v-toolbar-title>
+          <v-spacer></v-spacer>
+            <v-btn flat>Sign In</v-btn>
+            <v-btn flat>Login</v-btn>
+        </v-toolbar>
       </div>
+      <v-footer class="pa-3" color="#696969" dark fixed>
+        <v-spacer></v-spacer>
+        <div>&copy; {{ new Date().getFullYear()}}</div>
+        <v-spacer></v-spacer>
+      </v-footer>
 
-      <v-spacer></v-spacer>
+    </v-app>
+  </div>
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
 
-    <v-content>
-      <HelloWorld/>
-    </v-content>
-  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
+  export default {
+    name: 'App',
+    data () {
+      return {
 
-export default {
-  name: 'App',
-
-  components: {
-    HelloWorld,
-  },
-
-  data: () => ({
-    //
-  }),
-};
+      }
+    }
+  }
 </script>
