@@ -2,7 +2,7 @@
   <div id="app">
     <v-app id="inspire">
 
-      <v-toolbar :style="{'background-image':'url(https://wallpaperaccess.com/full/752715.jpg)'}" src="https://www.ecopetit.cat/wpic/mpic/43-437293_2560x1600-black-abstract-wallpaper-for-iphone-data-high.jpg">
+      <v-toolbar :style="{'background-image':'url(https://www.bu.edu/files/2020/02/Oscar-Predictions-Posters.jpg)'}" src="https://www.ecopetit.cat/wpic/mpic/43-437293_2560x1600-black-abstract-wallpaper-for-iphone-data-high.jpg">
         <v-title class="white--text" > YOURMOVIEHUB</v-title>
         <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" >FILMY</v-btn>
           <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1">SERIALE</v-btn>
@@ -127,6 +127,9 @@
     computed: {
       comaprePasswords () {
         return this.signUpPassword !== this.confirmPassword ? 'Passwords do not match' : true
+      },
+      passwordLength () {
+        return this.signUpPassword.length  < 6 ? 'Password needs to be at least 6 characters long.' : true
       },
       user () {
         return this.$store.getters.user
