@@ -147,6 +147,5 @@
         this.$store.dispatch('LogUserIn', {email: this.logInEmail, password: this.logInPassword})
       }
     }
-
   }
 </script>
