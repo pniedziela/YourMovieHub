@@ -26,7 +26,7 @@ export const store = new Vuex.Store({
           console.log(`Sign up: ${newUser}`)
           //console.log(`Sign up: ${user.credential}`)
           //commit('setUser', user.email)
-         
+
         }
       )
       .catch(
@@ -46,7 +46,7 @@ export const store = new Vuex.Store({
           console.log(`Log in: ${newUser}`)
           // console.log(`Log in: ${user.credential}`)
           // commit('setUser', user.email)
-          
+
         }
       )
       .catch(
