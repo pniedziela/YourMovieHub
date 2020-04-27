@@ -37,7 +37,8 @@
                   type="password"
                   id="signUpPassword"
                   v-model="signUpPassword"
-                  required></v-text-field>
+                  required
+                  :rules="[passwordLength]"></v-text-field>
                 </v-col>
                 <v-col cols="12">
                   <v-text-field
@@ -126,10 +127,10 @@
     },
     computed: {
       comaprePasswords () {
-        return this.signUpPassword !== this.confirmPassword ? 'Passwords do not match' : true
+        return this.signUpPassword !== this.confirmPassword ? 'Hasła różnią się.' : true
       },
       passwordLength () {
-        return this.signUpPassword.length  < 6 ? 'Password needs to be at least 6 characters long.' : true
+        return this.signUpPassword.length  < 6 ? 'Hasło musi posiadać conajmniej 6 znaków.' : true
       },
       user () {
         return this.$store.getters.user
