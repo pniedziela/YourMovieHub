@@ -5,7 +5,9 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({ 
   state: {
-    user: null
+    user: {
+      id: 'aaa'
+    }
   },
   mutations: {    
     setUser (state, payload) {
@@ -18,9 +20,13 @@ export const store = new Vuex.Store({
       .then(
         user => {
           const newUser = {
-            cred: user.credential,
+            id: user.uid
           }
           commit('setUser', newUser)
+          console.log(`Sign up: ${newUser}`)
+          //console.log(`Sign up: ${user.credential}`)
+          //commit('setUser', user.email)
+         
         }
       )
       .catch(
@@ -34,10 +40,13 @@ export const store = new Vuex.Store({
       .then(
         user => {
           const newUser = {
-            cred: user.credential,
+            id: user.uid
           }
           commit('setUser', newUser)
-          console.log(`LogIn:`)
+          console.log(`Log in: ${newUser}`)
+          // console.log(`Log in: ${user.credential}`)
+          // commit('setUser', user.email)
+          
         }
       )
       .catch(
