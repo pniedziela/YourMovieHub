@@ -2,20 +2,23 @@
   <div id="app">
     <v-app id="inspire">
 
-      <v-toolbar :style="{'background-image':'url(https://www.bu.edu/files/2020/02/Oscar-Predictions-Posters.jpg)'}" src="https://www.ecopetit.cat/wpic/mpic/43-437293_2560x1600-black-abstract-wallpaper-for-iphone-data-high.jpg">
+      <v-toolbar :style="{'background-image':`${background}`}" src="https://www.ecopetit.cat/wpic/mpic/43-437293_2560x1600-black-abstract-wallpaper-for-iphone-data-high.jpg">
         <v-title class="white--text" > YOURMOVIEHUB</v-title>
-        <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" >FILMY</v-btn>
+        <template v-if="isAuthenticated">
+        <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1">FILMY</v-btn>
           <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1">SERIALE</v-btn>
           <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1">DLA DZIECI</v-btn>
           <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1">POLECANE</v-btn>
           <v-btn depressed large  class="light-blue white--text btn btn-outline-primary mr-1">#ZOSTAŃ W DOMU</v-btn>
         <input class="white--text" type="text" v-model="search" placeholder="Wyszukaj film,serial"/>
-
+        </template>
+         <template v-else> 
           <v-spacer></v-spacer>
               <v-dialog dark v-model="signUpDialog" persistent max-width="600px" @save.prevent="onSignup">
         <template v-slot:activator="{ on }">
-          <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text v-on="on">Zarejestruj się</v-btn>
+          <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text v-on="on" >Zarejestruj się</v-btn>
         </template>
+       
         <v-card>
           <v-card-title>
             <span class="headline">Zarejestruj się</span>
@@ -95,6 +98,11 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+      </template>
+      <v-icon depressed large class="light-blue white--text btn btn-outline-primary mr-1" v-if="isAuthenticated">mdi-account</v-icon>
+      <v-label depressed large class="light-blue white--text btn btn-outline-primary mr-1" v-if="isAuthenticated">Witaj, </v-label>
+    <div class="mx-2"></div>
+       <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text v-if="isAuthenticated" @click="onLogOut()">Wyloguj się</v-btn>
         </v-toolbar>
 
       <v-footer class="pa-3" color="#000000" dark fixed>
@@ -122,7 +130,9 @@
         signUpDialog: false,
         logInDialog: false,
         films: [],
-        search:''
+        search:'',
+        background: 'url(https://www.bu.edu/files/2020/02/Oscar-Predictions-Posters.jpg)',
+        posters: 'url(https://www.bu.edu/files/2020/02/Oscar-Predictions-Posters.jpg)'
       }
     },
     computed: {
@@ -130,25 +140,46 @@
         return this.signUpPassword !== this.confirmPassword ? 'Hasła różnią się.' : true
       },
       passwordLength () {
-        return this.signUpPassword.length  < 6 ? 'Hasło musi posiadać conajmniej 6 znaków.' : true
+        return this.signUpPassword.length  < 6 ? 'Hasło musi posiadać co najmniej 6 znaków.' : true
       },
       user () {
         return this.$store.getters.user
+      },
+      isAuthenticated() {
+        return this.$store.getters.isAuthenticated
       }
     },
     watch: {
       user (value) {
         if(value !== null && value !== undefined) {
-          console.log(value);
+          console.log();
         }
-      }
+      }  
     },
     methods: {
       onSignup () {
-        this.$store.dispatch('signUserUp', {email: this.signUpEmail, password: this.signUpPassword})
+        this.$store.dispatch('signUserUp', {email: this.signUpEmail, password: this.signUpPassword}).then(()=>
+        {
+          this.signUpEmail = "",
+          this.signUpPassword = "",
+          this.confirmPassword = "",
+          this.background = ''
+        })
+
       },
       onLogin () {
-        this.$store.dispatch('LogUserIn', {email: this.logInEmail, password: this.logInPassword})
+        this.$store.dispatch('logUserIn', {email: this.logInEmail, password: this.logInPassword}).then(()=>
+        {
+          this.logInEmail = "",
+          this.logInPassword = "",
+          this.background = ''
+        })
+      },
+      onLogOut() {
+        this.$store.dispatch('logUserOut').then(()=>
+        {
+          this.background = this.posters
+        })
       }
     }
   }

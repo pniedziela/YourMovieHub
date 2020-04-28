@@ -5,60 +5,64 @@ Vue.use(Vuex)
 
 export const store = new Vuex.Store({ 
   state: {
-    user: {
-      id: 'aaa'
-    }
+    user: null,
+    isAuthenticated:false
   },
   mutations: {    
     setUser (state, payload) {
-      state.user = payload
+      state.user = payload;
+    },
+    setIsAuthenticated(state, payload) {    
+      state.isAuthenticated = payload
     }
+
   },
     actions: {
     signUserUp ({commit},payload) {
       firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
       .then(
         user => {
-          const newUser = {
-            id: user.uid
-          }
-          commit('setUser', newUser)
-          console.log(`Sign up: ${newUser}`)
-          //console.log(`Sign up: ${user.credential}`)
-          //commit('setUser', user.email)
+          commit('setUser', user);
+          commit('setIsAuthenticated', true);
 
         }
       )
-      .catch(
-        error => {
-          console.log(error)
-        }
+      .catch(()=> 
+      {
+        commit('setUser', null);
+        commit('setIsAuthenticated', false);
+      }
       )
     },
-    LogUserIn ({commit},payload) {
+    logUserIn ({commit},payload) {
       firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
       .then(
         user => {
-          const newUser = {
-            id: user.uid
-          }
-          commit('setUser', newUser)
-          console.log(`Log in: ${newUser}`)
-          // console.log(`Log in: ${user.credential}`)
-          // commit('setUser', user.email)
-
+        commit('setUser', user);
+        commit('setIsAuthenticated', true);
         }
       )
-      .catch(
-        error => {
-          console.log(error)
-        }
+      .catch(()=> 
+      {
+        commit('setUser', null);
+        commit('setIsAuthenticated', false);
+      }
       )
+    },
+    logUserOut({commit}){
+      firebase.auth().signOut().then(()=>
+      {
+        commit('setUser', null);
+        commit('setIsAuthenticated', false);
+      })
     }
   },
   getters: {
     user (state) {
       return state.user
+    },
+    isAuthenticated (state){
+      return state.isAuthenticated
     }
   }  
 })
