@@ -12,7 +12,8 @@
           <v-btn depressed large  class="light-blue white--text btn btn-outline-primary mr-1">#ZOSTAŃ W DOMU</v-btn>
         <input class="white--text" type="text" v-model="searchKey" placeholder="Wyszukaj film,serial"/>
         <button v-on:click="searchMovies">Search</button>
-
+        </template>
+        <template v-else>
           <v-spacer></v-spacer>
               <v-dialog dark v-model="signUpDialog" persistent max-width="600px" @save.prevent="onSignup">
         <template v-slot:activator="{ on }">
@@ -105,7 +106,7 @@
        <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text v-if="isAuthenticated" @click="onLogOut()">Wyloguj się</v-btn>
         </v-toolbar>
 
-      <div class="row">
+      <div class="row" v-if="isAuthenticated">
         <div style="margin:5px; float: left; border:1px solid;">
           <img style="width: 100%; height: auto" v-bind:src="moviesList.Search[0].Poster">
           <div class="title" style="padding: 15px; text-align: center">{{moviesList.Search[0].Title}}</div>
@@ -142,7 +143,7 @@
         films: [],
         search:'',
         background: 'url(https://www.bu.edu/files/2020/02/Oscar-Predictions-Posters.jpg)',
-        posters: 'url(https://www.bu.edu/files/2020/02/Oscar-Predictions-Posters.jpg)'
+        posters: 'url(https://www.bu.edu/files/2020/02/Oscar-Predictions-Posters.jpg)',
         searchKey:'',
         moviesList:[],
         randomkeywords:['Shaman','Lord','Capitan','Super','naruto']
