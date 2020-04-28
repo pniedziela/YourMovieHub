@@ -11,6 +11,7 @@ export const store = new Vuex.Store({
   mutations: {    
     setUser (state, payload) {
       state.user = payload;
+      console.log(payload);
     },
     setIsAuthenticated(state, payload) {    
       state.isAuthenticated = payload
@@ -22,7 +23,7 @@ export const store = new Vuex.Store({
       firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
       .then(
         user => {
-          commit('setUser', user);
+          commit('setUser', user.user.email);
           commit('setIsAuthenticated', true);
 
         }
@@ -38,7 +39,7 @@ export const store = new Vuex.Store({
       firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
       .then(
         user => {
-        commit('setUser', user);
+        commit('setUser', user.user.email);
         commit('setIsAuthenticated', true);
         }
       )

@@ -99,8 +99,8 @@
         </v-card>
       </v-dialog>
       </template>
-      <v-icon depressed large class="light-blue white--text btn btn-outline-primary mr-1" v-if="isAuthenticated">mdi-account</v-icon>
-      <v-label depressed large class="light-blue white--text btn btn-outline-primary mr-1" v-if="isAuthenticated">Witaj, </v-label>
+      <v-icon depressed large class="white--text" v-if="isAuthenticated">mdi-account</v-icon>
+      <span depressed large class="white--text" v-if="isAuthenticated">Witaj, {{user.split("@")[0]}}</span>
     <div class="mx-2"></div>
        <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text v-if="isAuthenticated" @click="onLogOut()">Wyloguj się</v-btn>
         </v-toolbar>
@@ -152,7 +152,7 @@
     watch: {
       user (value) {
         if(value !== null && value !== undefined) {
-          console.log();
+         this.background = '';
         }
       }  
     },
@@ -162,18 +162,15 @@
         {
           this.signUpEmail = "",
           this.signUpPassword = "",
-          this.confirmPassword = "",
-          this.background = ''
+          this.confirmPassword = ""                
         })
-
       },
       onLogin () {
         this.$store.dispatch('logUserIn', {email: this.logInEmail, password: this.logInPassword}).then(()=>
         {
           this.logInEmail = "",
-          this.logInPassword = "",
-          this.background = ''
-        })
+          this.logInPassword = ""
+        })   
       },
       onLogOut() {
         this.$store.dispatch('logUserOut').then(()=>
