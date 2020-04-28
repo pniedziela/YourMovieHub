@@ -9,7 +9,8 @@
           <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1">DLA DZIECI</v-btn>
           <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1">POLECANE</v-btn>
           <v-btn depressed large  class="light-blue white--text btn btn-outline-primary mr-1">#ZOSTAŃ W DOMU</v-btn>
-        <input class="white--text" type="text" v-model="search" placeholder="Wyszukaj film,serial"/>
+        <input class="white--text" type="text" v-model="searchKey" placeholder="Wyszukaj film,serial"/>
+        <button v-on:click="searchMovies">Search</button>
 
           <v-spacer></v-spacer>
               <v-dialog dark v-model="signUpDialog" persistent max-width="600px" @save.prevent="onSignup">
@@ -97,6 +98,13 @@
       </v-dialog>
         </v-toolbar>
 
+      <div class="row">
+        <div style="margin:5px; float: left; border:1px solid;">
+          <img style="width: 100%; height: auto" v-bind:src="moviesList.Search[0].Poster">
+          <div class="title" style="padding: 15px; text-align: center">{{moviesList.Search[0].Title}}</div>
+        </div>
+      </div>
+
       <v-footer class="pa-3" color="#000000" dark fixed>
         <v-spacer></v-spacer>
         <div>&copy; {{ new Date().getFullYear()}} </div>
@@ -112,6 +120,9 @@
 <script>
   export default {
     name: 'App',
+    mounted:function(){
+      this.loadRandom()
+    },
     data () {
       return {
         signUpEmail: '',
@@ -122,7 +133,10 @@
         signUpDialog: false,
         logInDialog: false,
         films: [],
-        search:''
+        search:'',
+        searchKey:'',
+        moviesList:[],
+        randomkeywords:['Shaman','Lord','Capitan','Super','naruto']
       }
     },
     computed: {
@@ -149,7 +163,39 @@
       },
       onLogin () {
         this.$store.dispatch('LogUserIn', {email: this.logInEmail, password: this.logInPassword})
+      },
+      searchMovies()
+      {
+        var url = 'http://www.omdbapi.com/?s=' + this.searchKey + '&apikey=8dc936a1&';
+        fetch(url)
+                .then(response=>response.json())
+                .then(data=>{
+                  this.moviesList=data;
+                })
+      },
+      loadRandom()
+      {
+        const randomElement = this.randomkeywords[Math.floor(Math.random() * this.randomkeywords.length)];
+        var url = 'http://www.omdbapi.com/?s=' + randomElement + '&apikey=8dc936a1&';
+        fetch(url)
+                .then(response=>response.json())
+                .then(data=>{
+                  this.moviesList=data;
+                })
       }
     }
   }
 </script>
+
+<style>
+
+.row {
+  display: flex;
+}
+
+.column {
+  flex: 10%;
+  padding: 5px;
+}
+</style>
+
