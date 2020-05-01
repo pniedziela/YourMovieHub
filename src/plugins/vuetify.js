@@ -5,6 +5,9 @@ Vue.use(Vuetify);
 
 export default new Vuetify({    
     icons: {
-        iconfont: 'mdi-account', // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
+        iconfont: 'mdi-account',
+
+
+        // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
       }
 });

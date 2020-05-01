@@ -10,8 +10,8 @@
           <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1">DLA DZIECI</v-btn>
           <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1">POLECANE</v-btn>
           <v-btn depressed large  class="light-blue white--text btn btn-outline-primary mr-1">#ZOSTAŃ W DOMU</v-btn>
+          <v-btn depressed large  class="light-blue white--text" v-on:click="searchMovies">Szukaj</v-btn>
         <input class="white--text" type="text" v-model="searchKey" placeholder="Wyszukaj film,serial"/>
-        <button v-on:click="searchMovies">Search</button>
         </template>
         <template v-else>
           <v-spacer></v-spacer>
@@ -105,17 +105,37 @@
     <div class="mx-2"></div>
        <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text v-if="isAuthenticated" @click="onLogOut()">Wyloguj się</v-btn>
         </v-toolbar>
+      <body style="background-color: #010105;">
 
       <div class="row" v-if="isAuthenticated">
-        <div style="margin:5px; float: left; border:1px solid;">
+
+
+        <div style="margin:5px; float: left; border:5px solid;">
           <img style="width: 100%; height: auto" v-bind:src="moviesList.Search[0].Poster">
-          <div class="title" style="padding: 15px; text-align: center">{{moviesList.Search[0].Title}}</div>
+          <div class="title white--text"  style="padding: 15px; text-align: center">{{moviesList.Search[0].Title}}</div>
+          <img style="width: 100%; height: auto" v-bind:src="moviesList.Search[1].Poster">
+          <div class="title white--text" style="padding: 15px; text-align: center">{{moviesList.Search[1].Title}}</div>
+          <img style="width: 100%; height: auto" v-bind:src="moviesList.Search[2].Poster">
+          <div class="title white--text" style="padding: 15px; text-align: center">{{moviesList.Search[2].Title}}</div>
+          <img style="width: 100%; height: auto" v-bind:src="moviesList.Search[3].Poster">
+          <div class="title white--text" style="padding: 15px; text-align: center">{{moviesList.Search[3].Title}}</div>
+
+
+
+
+
+
+
+
+
         </div>
       </div>
+  </body>
 
       <v-footer class="pa-3" color="#000000" dark fixed>
         <v-spacer></v-spacer>
         <div>&copy; {{ new Date().getFullYear()}} </div>
+
         <v-spacer></v-spacer>
       </v-footer>
 
@@ -176,7 +196,7 @@
         {
           this.signUpEmail = "",
           this.signUpPassword = "",
-          this.confirmPassword = ""                
+          this.confirmPassword = ""
         })
       },
       onLogin () {
@@ -184,7 +204,7 @@
         {
           this.logInEmail = "",
           this.logInPassword = ""
-        })   
+        })
       },
       onLogOut() {
         this.$store.dispatch('logUserOut').then(()=>
