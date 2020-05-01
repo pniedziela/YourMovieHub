@@ -57,8 +57,8 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="signUpDialog = false">Zamknij</v-btn>
-            <v-btn color="blue darken-1" text @click="signUpDialog = false, onSignup()" type ="submit">Zarejestruj</v-btn>
+            <v-btn depressed large  class="light-blue white--text btn btn-outline-primary mr-1" text @click="signUpDialog = false">Zamknij</v-btn>
+            <v-btn depressed large  class="light-blue white--text btn btn-outline-primary mr-1" text @click="signUpDialog = false, onSignup()" type ="submit">Zarejestruj</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -94,8 +94,8 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="logInDialog = false">Zamknij</v-btn>
-            <v-btn color="blue darken-1" text @click="logInDialog = false , onLogin()">Zaloguj</v-btn>
+            <v-btn depressed large  class="light-blue white--text btn btn-outline-primary mr-1" text @click="logInDialog = false">Zamknij</v-btn>
+            <v-btn depressed large  class="light-blue white--text btn btn-outline-primary mr-1" text @click="logInDialog = false , onLogin()">Zaloguj</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
