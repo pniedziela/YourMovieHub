@@ -99,7 +99,53 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-      </template>
+      </template> 
+      <v-dialog dark v-model="commentDialog" persistent max-width="600px" @save.prevent="onSignup"  v-if="isAuthenticated">
+        <template v-slot:activator="{ on }">
+          <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text v-on="on" >Komentarze</v-btn>
+        </template>
+       
+        <v-card>
+          <v-card-title>
+            <span class="headline">Komentarze</span>
+          </v-card-title>
+          <v-card-text>
+            <v-flex d-flex>
+              <v-layout wrap>
+                  <v-flex md4 v-for="item in commentsFromDB" :key="item.user">
+                      <v-row>
+                      <v-card>                      
+                       <v-card-title>
+                        <span class="headline">{{ item.user }}</span>
+                      </v-card-title>
+                        <span class="card-container">
+                          {{ item.content }}
+                        </span>
+                        </v-card>
+                      </v-row>
+                  </v-flex>
+              </v-layout>
+            </v-flex>
+            <v-container>
+              <v-row>               
+                <v-col cols="12">
+                  <v-text-field
+                  label="Komentarz"
+                  type="comment"
+                  id="comment"
+                  v-model="comment"
+                  required></v-text-field>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="commentDialog = false">Zamknij</v-btn>
+            <v-btn color="blue darken-1" text @click="onComment()" type ="submit">Skomentuj</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>              
       <v-icon depressed large class="white--text" v-if="isAuthenticated">mdi-account</v-icon>
       <span depressed large class="white--text" v-if="isAuthenticated">Witaj, {{user.split("@")[0]}}</span>
     <div class="mx-2"></div>
@@ -138,8 +184,10 @@
         confirmPassword: '',
         logInEmail: '',
         logInPassword: '',
+        comment: '',
         signUpDialog: false,
         logInDialog: false,
+        commentDialog: false,
         films: [],
         search:'',
         background: 'url(https://www.bu.edu/files/2020/02/Oscar-Predictions-Posters.jpg)',
@@ -161,6 +209,9 @@
       },
       isAuthenticated() {
         return this.$store.getters.isAuthenticated
+      },
+      commentsFromDB() {
+        return this.$store.getters.loadedComments
       }
     },
     watch: {
@@ -171,6 +222,12 @@
       }  
     },
     methods: {
+      onComment(){
+         this.$store.dispatch('createComment', {content: this.comment, movie: "Star Wars: New Hope"}).then(()=>
+        {
+          this.comment = ""
+        })
+      },
       onSignup () {
         this.$store.dispatch('signUserUp', {email: this.signUpEmail, password: this.signUpPassword}).then(()=>
         {
