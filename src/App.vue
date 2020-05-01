@@ -112,7 +112,7 @@
           <v-card-text>
             <v-flex d-flex>
               <v-layout wrap>
-                  <v-flex md4 v-for="item in commentsFromDB" :key="item.user">
+                  <v-flex md10 v-for="item in commentsFromDB" :key="item.user">
                       <v-row>
                       <v-card>                      
                        <v-card-title>
@@ -141,8 +141,8 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="commentDialog = false">Zamknij</v-btn>
-            <v-btn color="blue darken-1" text @click="onComment()" type ="submit">Skomentuj</v-btn>
+            <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text @click="commentDialog = false">Zamknij</v-btn>
+            <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text @click="onComment()" type ="submit">Skomentuj</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>              
