@@ -121,14 +121,14 @@
                   <v-card-text>
                     <v-container>
                       <v-row>
-                          <v-textarea dark depressed large class="white--text " label="Informacje o filmie:" required></v-textarea>
+                          <v-textarea dark depressed large class="white--text" label="Informacje o filmie:" required></v-textarea>
                       </v-row>
                     </v-container>
                   </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text @click="dialog = false">Zamknij</v-btn>
-                    <v-btn cdepressed large class="light-blue white--text btn btn-outline-primary mr-1" text @click="dialog = false">Zapisz</v-btn>
+                    <v-btn cdepressed large class="light-blue white--text btn btn-outline-primary mr-1" text @click="dialog = false">Dodaj komenatarz</v-btn>
                   </v-card-actions>
                 </v-card>
               </v-dialog>
