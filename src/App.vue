@@ -113,7 +113,7 @@
         <div class="row" style="margin:5px; float: left; border:5px solid;">
           <div v-for="(movie, movieKey) in moviesList.Search" :key="movieKey">
             <div class="column">
-              <v-dialog v-model="dialog" persistent max-width="600px">
+              <v-dialog dark v-model="dialog" persistent max-width="600px">
                 <template v-slot:activator="{ on }">
                   <v-img style="width: 100%; height: auto" v-bind:src="movie.Poster" v-on="on"></v-img>
                 </template>
@@ -121,9 +121,7 @@
                   <v-card-text>
                     <v-container>
                       <v-row>
-                        <v-col cols="12" md="4">
-                          <v-textarea label="" required></v-textarea>
-                        </v-col>
+                          <v-textarea dark depressed large class="white--text " label="Informacje o filmie:" required></v-textarea>
                       </v-row>
                     </v-container>
                   </v-card-text>
