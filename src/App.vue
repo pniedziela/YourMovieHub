@@ -110,41 +110,32 @@
 
       <div class="row" v-if="isAuthenticated">
 
-
         <div class="row" style="margin:5px; float: left; border:5px solid;">
-          <div class="column">
-          <img style="width: 100%; height: auto" v-bind:src="moviesList.Search[0].Poster">
-          <div class="title white--text"  style="padding: 15px; text-align: center">{{moviesList.Search[0].Title}}</div>
-          </div>
-          <div class="column">
-          <img style="width: 100%; height: auto" v-bind:src="moviesList.Search[1].Poster">
-          <div class="title white--text" style="padding: 15px; text-align: center">{{moviesList.Search[1].Title}}</div>
-          </div>
-          <div class="column">
-          <img style="width: 100%; height: auto" v-bind:src="moviesList.Search[2].Poster">
-          <div class="title white--text" style="padding: 15px; text-align: center">{{moviesList.Search[2].Title}}</div>
-          </div>
-          <div class="column">
-          <img style="width: 100%; height: auto" v-bind:src="moviesList.Search[3].Poster">
-          <div class="title white--text" style="padding: 15px; text-align: center">{{moviesList.Search[3].Title}}</div>
-          </div>
-        </div>
-        <div class="row" style="margin:5px; float: left; border:5px solid;">
-          <div class="column">
-            <img style="width: 100%; height: auto" v-bind:src="moviesList.Search[4].Poster">
-            <div class="title white--text"  style="padding: 15px; text-align: center">{{moviesList.Search[4].Title}}</div>
-          </div>
-          <div class="column">
-            <img style="width: 100%; height: auto" v-bind:src="moviesList.Search[5].Poster">
-            <div class="title white--text" style="padding: 15px; text-align: center">{{moviesList.Search[5].Title}}</div>
-          </div>
-          <div class="column">
-            <img style="width: 100%; height: auto" v-bind:src="moviesList.Search[6].Poster">
-            <div class="title white--text" style="padding: 15px; text-align: center">{{moviesList.Search[6].Title}}</div>
-          </div>
-          <div class="column">
-            <img style="width: 100%; height: auto" v-bind:src="moviesList.Search[7].Poster">
-            <div class="title white--text" style="padding: 15px; text-align: center">{{moviesList.Search[7].Title}}</div>
+          <div v-for="(movie, movieKey) in moviesList.Search" :key="movieKey">
+            <div class="column">
+              <v-dialog v-model="dialog" persistent max-width="600px">
+                <template v-slot:activator="{ on }">
+                  <v-img style="width: 100%; height: auto" v-bind:src="movie.Poster" v-on="on"></v-img>
+                </template>
+                <v-card>
+                  <v-card-text>
+                    <v-container>
+                      <v-row>
+                        <v-col cols="12" md="4">
+                          <v-textarea label="" required></v-textarea>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="blue darken-1" text @click="dialog = false">Zamknij</v-btn>
+                    <v-btn color="blue darken-1" text @click="dialog = false">Zapisz</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+              <div class="title white--text" style="color: darkgray">{{movie.Title}}</div>
+            </div>
           </div>
         </div>
       </div>
@@ -238,6 +229,7 @@
                 .then(response=>response.json())
                 .then(data=>{
                   this.moviesList=data;
+
                 })
       },
       loadRandom()
