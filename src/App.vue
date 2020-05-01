@@ -113,7 +113,7 @@
         <div class="row" style="margin:5px; float: left; border:5px solid;">
           <div v-for="(movie, movieKey) in moviesList.Search" :key="movieKey">
             <div class="column">
-              <v-dialog dark v-model="dialog" persistent max-width="600px">
+              <v-dialog dark v-model="InfoDialog" persistent max-width="600px">
                 <template v-slot:activator="{ on }">
                   <v-img style="width: 100%; height: auto" v-bind:src="movie.Poster" v-on="on"></v-img>
                 </template>
@@ -121,14 +121,14 @@
                   <v-card-text>
                     <v-container>
                       <v-row>
-                          <v-textarea dark depressed large class="white--text" label="Informacje o filmie:" required></v-textarea>
+
                       </v-row>
                     </v-container>
                   </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text @click="dialog = false">Zamknij</v-btn>
-                    <v-btn cdepressed large class="light-blue white--text btn btn-outline-primary mr-1" text @click="dialog = false">Dodaj komenatarz</v-btn>
+                    <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text @click="InfoDialog = false">Zamknij</v-btn>
+                    <v-btn cdepressed large class="light-blue white--text btn btn-outline-primary mr-1" text @click="InfoDialog = false">Dodaj komenatarz</v-btn>
                   </v-card-actions>
                 </v-card>
               </v-dialog>
@@ -167,6 +167,7 @@
         logInPassword: '',
         signUpDialog: false,
         logInDialog: false,
+        InfoDialog: false,
         films: [],
         search:'',
         background: 'url(https://www.bu.edu/files/2020/02/Oscar-Predictions-Posters.jpg)',
