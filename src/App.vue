@@ -7,11 +7,11 @@
         <template v-if="isAuthenticated">
         <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1">FILMY</v-btn>
           <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1">SERIALE</v-btn>
-          <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1">DLA DZIECI</v-btn>
           <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1">POLECANE</v-btn>
           <v-btn depressed large  class="light-blue white--text btn btn-outline-primary mr-1">#ZOSTAŃ W DOMU</v-btn>
-          <v-btn depressed large  class="light-blue white--text" v-on:click="searchMovies">Szukaj</v-btn>
+
         <input class="white--text" type="text" v-model="searchKey" placeholder="Wyszukaj film,serial"/>
+          <v-btn depressed large  class="light-blue white--text" v-on:click="searchMovies">Szukaj</v-btn>
         </template>
         <template v-else>
           <v-spacer></v-spacer>
@@ -100,6 +100,7 @@
         </v-card>
       </v-dialog>
       </template>
+
       <v-icon depressed large class="white--text" v-if="isAuthenticated">mdi-account</v-icon>
       <span depressed large class="white--text" v-if="isAuthenticated">Witaj, {{user.split("@")[0]}}</span>
     <div class="mx-2"></div>
