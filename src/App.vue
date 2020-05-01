@@ -127,8 +127,8 @@
                   </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" text @click="dialog = false">Zamknij</v-btn>
-                    <v-btn color="blue darken-1" text @click="dialog = false">Zapisz</v-btn>
+                    <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text @click="dialog = false">Zamknij</v-btn>
+                    <v-btn cdepressed large class="light-blue white--text btn btn-outline-primary mr-1" text @click="dialog = false">Zapisz</v-btn>
                   </v-card-actions>
                 </v-card>
               </v-dialog>
