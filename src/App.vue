@@ -110,24 +110,41 @@
       <div class="row" v-if="isAuthenticated">
 
 
-        <div style="margin:5px; float: left; border:5px solid;">
+        <div class="row" style="margin:5px; float: left; border:5px solid;">
+          <div class="column">
           <img style="width: 100%; height: auto" v-bind:src="moviesList.Search[0].Poster">
           <div class="title white--text"  style="padding: 15px; text-align: center">{{moviesList.Search[0].Title}}</div>
+          </div>
+          <div class="column">
           <img style="width: 100%; height: auto" v-bind:src="moviesList.Search[1].Poster">
           <div class="title white--text" style="padding: 15px; text-align: center">{{moviesList.Search[1].Title}}</div>
+          </div>
+          <div class="column">
           <img style="width: 100%; height: auto" v-bind:src="moviesList.Search[2].Poster">
           <div class="title white--text" style="padding: 15px; text-align: center">{{moviesList.Search[2].Title}}</div>
+          </div>
+          <div class="column">
           <img style="width: 100%; height: auto" v-bind:src="moviesList.Search[3].Poster">
           <div class="title white--text" style="padding: 15px; text-align: center">{{moviesList.Search[3].Title}}</div>
-
-
-
-
-
-
-
-
-
+          </div>
+        </div>
+        <div class="row" style="margin:5px; float: left; border:5px solid;">
+          <div class="column">
+            <img style="width: 100%; height: auto" v-bind:src="moviesList.Search[4].Poster">
+            <div class="title white--text"  style="padding: 15px; text-align: center">{{moviesList.Search[4].Title}}</div>
+          </div>
+          <div class="column">
+            <img style="width: 100%; height: auto" v-bind:src="moviesList.Search[5].Poster">
+            <div class="title white--text" style="padding: 15px; text-align: center">{{moviesList.Search[5].Title}}</div>
+          </div>
+          <div class="column">
+            <img style="width: 100%; height: auto" v-bind:src="moviesList.Search[6].Poster">
+            <div class="title white--text" style="padding: 15px; text-align: center">{{moviesList.Search[6].Title}}</div>
+          </div>
+          <div class="column">
+            <img style="width: 100%; height: auto" v-bind:src="moviesList.Search[7].Poster">
+            <div class="title white--text" style="padding: 15px; text-align: center">{{moviesList.Search[7].Title}}</div>
+          </div>
         </div>
       </div>
   </body>
