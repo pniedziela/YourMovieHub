@@ -8,6 +8,7 @@ export default new Vuetify({
         iconfont: 'mdi-account',
 
 
+
         // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
       }
 });
