@@ -101,11 +101,7 @@
           </v-dialog>
       
       </template> 
-      <v-dialog dark v-model="commentDialog" persistent max-width="600px" @save.prevent="onSignup"  v-if="isAuthenticated">
-        <template v-slot:activator="{ on }">
-          <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text v-on="on" >Komentarze</v-btn>
-        </template>
-       
+      <v-dialog dark v-model="commentDialog" persistent max-width="600px" @save.prevent="onSignup"  v-if="isAuthenticated">       
         <v-card>
           <v-card-title>
             <span class="headline">Komentarze</span>
@@ -113,7 +109,7 @@
           <v-card-text>
             <v-flex d-flex>
               <v-layout wrap>
-                  <v-flex md10 v-for="item in commentsFromDB" :key="item.user">
+                  <v-flex md10 v-for="item in commentsForCurrent" :key="item.user">
                       <v-row>
                       <v-card>                      
                        <v-card-title>
@@ -157,7 +153,8 @@
       <div class="row" v-if="isAuthenticated">
         <span class="border border-blue"></span>
         <v-dialog dark v-model="InfoDialog" max-width="1000px">
-          <v-btn depressed large class="light-blue white--text" style="min-width:1000px">Opis Filmu</v-btn>          <v-card>
+          <v-btn depressed large class="light-blue white--text" style="min-width:1000px">Opis Filmu</v-btn>          
+          <v-card>
             <v-card-text>
               <v-container >
                 {{current.Plot}}
@@ -165,6 +162,7 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
+              <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text @click="commentDialog = true">Komentarze</v-btn>
               <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text @click="InfoDialog = false">Zamknij</v-btn>
             </v-card-actions>
           </v-card>
@@ -219,6 +217,7 @@
         moviesList:[],
         randomkeywords:['Shaman','Lord','Capitan','Super','naruto'],
         current: [],
+        commentsForCurrent: [],
         // currentMovie: this.current.Title,
         // currentPlot: this.current.Plot
       }
@@ -249,7 +248,7 @@
     },
     methods: {
       onComment(){
-         this.$store.dispatch('createComment', {content: this.comment, movie: "Star Wars: New Hope"}).then(()=>
+         this.$store.dispatch('createComment', {content: this.comment, movie: this.current.Title}).then(()=>
         {
           this.comment = ""
         })
@@ -302,7 +301,15 @@
                 .then(response=>response.json())
                 .then(data=>{
                   this.current=data;
+                   this.commentsForCurrent = []
+                  for (let i=0;i<this.commentsFromDB.length;i++){                   
+                  if(this.commentsFromDB[i].movie == this.current.Title)
+                  {
+                    this.commentsForCurrent.push(this.commentsFromDB[i])
+                  }
+                }
                 })
+               
       },
       // selectPlotandTitle()
       // {
