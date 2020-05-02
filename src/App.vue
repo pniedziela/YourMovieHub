@@ -7,68 +7,68 @@
         <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1 hidden-md-and-up" text v-on="on" @click="signUpSmallMenu = true" >Menu</v-btn>
         <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1 hidden-md-and-up" text v-on="on" @click="searchSmallMenu = true" v-if="isAuthenticated">Wyszukaj</v-btn>
         <template v-if="isAuthenticated">
-      <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1">FILMY</v-btn>
-          <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1">SERIALE</v-btn>
-          <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1">POLECANE</v-btn>
-          <v-btn depressed large  class="light-blue white--text btn btn-outline-primary mr-1">#ZOSTAŃ W DOMU</v-btn>
-       </v-toolbar-items>
-        <input class="white--text hidden-sm-and-down" type="text" v-model="searchKey" placeholder="Wyszukaj film,serial"/>
+          <v-toolbar-items class="hidden-sm-and-down">
+            <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" v-on:click="searchOnlyMovies">FILMY</v-btn>
+            <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" v-on:click="searchSerials">SERIALE</v-btn>
+            <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1">POLECANE</v-btn>
+            <v-btn depressed large  class="light-blue white--text btn btn-outline-primary mr-1">#ZOSTAŃ W DOMU</v-btn>
+          </v-toolbar-items>
+          <input class="white--text hidden-sm-and-down" type="text" v-model="searchKey" placeholder="Wyszukaj film,serial"/>
           <v-btn depressed large  class="light-blue white--text hidden-sm-and-down" v-on:click="searchMovies">Szukaj</v-btn>
         </template>
         <template v-else>
           <v-spacer></v-spacer>
-              <v-dialog dark v-model="signUpDialog" persistent max-width="600px" @save.prevent="onSignup">
-        <template v-slot:activator="{ on }">
-          <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1 hidden-sm-and-down" text v-on="on" >Zarejestruj się</v-btn>
-        </template>
-       
-        <v-card>
-          <v-card-title>
-            <span class="headline">Zarejestruj się</span>
-          </v-card-title>
-          <v-card-text>
-            <v-container>
-              <v-row>
-                <v-col cols="12">
-                  <v-text-field
-                  label="E-Mail"
-                  type="email"
-                  id="signUpEmail"
-                  v-model="signUpEmail"
-                  required></v-text-field>
-                </v-col>
-                <v-col cols="12">
-                  <v-text-field
-                  label="Wybierz hasło"
-                  type="password"
-                  id="signUpPassword"
-                  v-model="signUpPassword"
-                  required
-                  :rules="[passwordLength]"></v-text-field>
-                </v-col>
-                <v-col cols="12">
-                  <v-text-field
-                  label="Potwierdź hasło"
-                  type="password"
-                  id="confirmPassword"
-                  v-model="confirmPassword"
-                  :rules="[comaprePasswords]" ></v-text-field>
-                </v-col>
-              </v-row>
-            </v-container>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="signUpDialog = false">Zamknij</v-btn>
-            <v-btn color="blue darken-1" text @click="signUpDialog = false, onSignup()" type ="submit">Zarejestruj</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-            <v-dialog dark v-model="logInDialog" persistent max-width="600px">
-        <template v-slot:activator="{ on }">
-          <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1 hidden-sm-and-down" text v-on="on">Zaloguj się</v-btn>
-        </template>         
+          <v-dialog dark v-model="signUpDialog" persistent max-width="600px" @save.prevent="onSignup">
+            <template v-slot:activator="{ on }">
+              <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1 hidden-sm-and-down" text v-on="on" >Zarejestruj się</v-btn>
+            </template>
+
+            <v-card>
+              <v-card-title>
+                <span class="headline">Zarejestruj się</span>
+              </v-card-title>
+              <v-card-text>
+                <v-container>
+                  <v-row>
+                    <v-col cols="12">
+                      <v-text-field
+                              label="E-Mail"
+                              type="email"
+                              id="signUpEmail"
+                              v-model="signUpEmail"
+                              required></v-text-field>
+                    </v-col>
+                    <v-col cols="12">
+                      <v-text-field
+                              label="Wybierz hasło"
+                              type="password"
+                              id="signUpPassword"
+                              v-model="signUpPassword"
+                              required
+                              :rules="[passwordLength]"></v-text-field>
+                    </v-col>
+                    <v-col cols="12">
+                      <v-text-field
+                              label="Potwierdź hasło"
+                              type="password"
+                              id="confirmPassword"
+                              v-model="confirmPassword"
+                              :rules="[comaprePasswords]" ></v-text-field>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" text @click="signUpDialog = false">Zamknij</v-btn>
+                <v-btn color="blue darken-1" text @click="signUpDialog = false, onSignup()" type ="submit">Zarejestruj</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+          <v-dialog dark v-model="logInDialog" persistent max-width="600px">
+            <template v-slot:activator="{ on }">
+              <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1 hidden-sm-and-down" text v-on="on">Zaloguj się</v-btn>
+            </template>
             <v-card>
               <v-card-title>
                 <span class="headline">Zaloguj się</span>
@@ -101,112 +101,112 @@
                 <v-btn depressed large  class="light-blue white--text btn btn-outline-primary mr-1" text @click="logInDialog = false , onLogin()">Zaloguj</v-btn>
               </v-card-actions>
             </v-card>
-          </v-dialog> 
+          </v-dialog>
         </template>
-      <v-dialog dark v-model="commentDialog" persistent max-width="600px" @save.prevent="onSignup">       
-        <v-card>
-          <v-card-title>
-            <span class="headline">Komentarze</span>
-          </v-card-title>
-          <v-card-text>
-            <v-flex d-flex>
-              <v-layout wrap>
+        <v-dialog dark v-model="commentDialog" persistent max-width="600px" @save.prevent="onSignup">
+          <v-card>
+            <v-card-title>
+              <span class="headline">Komentarze</span>
+            </v-card-title>
+            <v-card-text>
+              <v-flex d-flex>
+                <v-layout wrap>
                   <v-flex md10 v-for="item in commentsForCurrent" :key="item.user">
-                      <v-row>
-                      <v-card>                      
-                       <v-card-title>
-                        <span class="headline">{{ item.user }}</span>
-                      </v-card-title>
+                    <v-row>
+                      <v-card>
+                        <v-card-title>
+                          <span class="headline">{{ item.user }}</span>
+                        </v-card-title>
                         <span class="card-container">
                           {{ item.content }}
                         </span>
-                        </v-card>
-                      </v-row>
+                      </v-card>
+                    </v-row>
                   </v-flex>
-              </v-layout>
-            </v-flex>
-            <v-container>
-              <v-row>               
-                <v-col cols="12">
-                  <v-text-field
-                  label="Komentarz"
-                  type="comment"
-                  id="comment"
-                  v-model="comment"
-                  required></v-text-field>
-                </v-col>
+                </v-layout>
+              </v-flex>
+              <v-container>
+                <v-row>
+                  <v-col cols="12">
+                    <v-text-field
+                            label="Komentarz"
+                            type="comment"
+                            id="comment"
+                            v-model="comment"
+                            required></v-text-field>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text @click="commentDialog = false">Zamknij</v-btn>
+              <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text @click="onComment()" type ="submit">Skomentuj</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+
+
+
+        <v-icon depressed large class="white--text hidden-sm-and-down" v-if="isAuthenticated">mdi-account</v-icon>
+        <span depressed large class="white--text hidden-sm-and-down" v-if="isAuthenticated">Witaj, {{user.split("@")[0]}}</span>
+        <div class="mx-2"></div>
+        <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1  hidden-sm-and-down" text v-if="isAuthenticated" @click="onLogOut()">Wyloguj się</v-btn>
+
+
+
+        <v-dialog dark v-model="signUpSmallMenu" max-width="600px" @save.prevent="onSignup">
+          <v-card>
+            <v-card-actions>
+              <v-row>
+                <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1"
+                       text
+                       v-on="on"
+                       @click="signUpDialog = true"
+                       v-if="!isAuthenticated">
+                  Zarejestruj się
+                </v-btn>
+                <v-spacer></v-spacer>
+                <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1"
+                       text v-on="on"
+                       @click="logInDialog = true"
+                       v-if="!isAuthenticated">
+                  Zaloguj się
+                </v-btn>
+                <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-5" v-if="isAuthenticated">FILMY</v-btn>
+
+                <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-5" v-if="isAuthenticated">SERIALE</v-btn>
+
+                <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-5" v-if="isAuthenticated">POLECANE</v-btn>
+
+                <v-btn depressed large  class="light-blue white--text btn btn-outline-primary mr-5" v-if="isAuthenticated">#ZOSTAŃ W DOMU</v-btn>
+
+                <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-10" text  @click="onLogOut()" v-if="isAuthenticated">Wyloguj się</v-btn>
               </v-row>
-            </v-container>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text @click="commentDialog = false">Zamknij</v-btn>
-            <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text @click="onComment()" type ="submit">Skomentuj</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-      
-     
+            </v-card-actions>
+          </v-card>
 
-      <v-icon depressed large class="white--text hidden-sm-and-down" v-if="isAuthenticated">mdi-account</v-icon>
-      <span depressed large class="white--text hidden-sm-and-down" v-if="isAuthenticated">Witaj, {{user.split("@")[0]}}</span>
-    <div class="mx-2"></div>
-       <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1  hidden-sm-and-down" text v-if="isAuthenticated" @click="onLogOut()">Wyloguj się</v-btn>
-    
-        
+        </v-dialog>
+        <v-dialog dark v-model="searchSmallMenu" max-width="600px" @save.prevent="onSignup">
+          <v-card>
+            <v-card-actions>
+              <v-row>
+                <input class="white--text" type="text" v-model="searchKey" placeholder="Wyszukaj film,serial" v-if="isAuthenticated"/>
+                <v-btn depressed large  class="light-blue " v-on:click="searchMovies" v-if="isAuthenticated">Szukaj</v-btn>
+              </v-row>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
 
-        <v-dialog dark v-model="signUpSmallMenu" max-width="600px" @save.prevent="onSignup">              
-        <v-card>                  
-          <v-card-actions>
-            <v-row>
-             <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1"
-                text 
-                v-on="on" 
-                @click="signUpDialog = true" 
-                v-if="!isAuthenticated">
-                Zarejestruj się
-              </v-btn>               
-            <v-spacer></v-spacer>                      
-              <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" 
-                text v-on="on"
-                @click="logInDialog = true" 
-                v-if="!isAuthenticated">
-                Zaloguj się
-              </v-btn>              
-           <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-5" v-if="isAuthenticated">FILMY</v-btn>
-          
-          <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-5" v-if="isAuthenticated">SERIALE</v-btn>
-          
-          <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-5" v-if="isAuthenticated">POLECANE</v-btn>
-          
-          <v-btn depressed large  class="light-blue white--text btn btn-outline-primary mr-5" v-if="isAuthenticated">#ZOSTAŃ W DOMU</v-btn>       
-          
-          <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-10" text  @click="onLogOut()" v-if="isAuthenticated">Wyloguj się</v-btn>  
-          </v-row>     
-          </v-card-actions>
-        </v-card>
 
-      </v-dialog> 
-       <v-dialog dark v-model="searchSmallMenu" max-width="600px" @save.prevent="onSignup">              
-        <v-card>                  
-          <v-card-actions>  
-          <v-row>                
-          <input class="white--text" type="text" v-model="searchKey" placeholder="Wyszukaj film,serial" v-if="isAuthenticated"/>          
-          <v-btn depressed large  class="light-blue " v-on:click="searchMovies" v-if="isAuthenticated">Szukaj</v-btn> 
-          </v-row>     
-          </v-card-actions>
-        </v-card>
-      </v-dialog>     
-                  
-        
-        
-        </v-toolbar>
+
+      </v-toolbar>
       <body style="background-color: #010105;">
 
       <div class="row" v-if="isAuthenticated">
         <span class="border border-blue"></span>
         <v-dialog dark v-model="InfoDialog" max-width="1000px">
-          <v-btn depressed large class="light-blue white--text" style="min-width:1000px">Opis Filmu</v-btn>          
+          <v-btn depressed large class="light-blue white--text" style="min-width:1000px">Opis Filmu</v-btn>
           <v-card>
             <v-card-text>
               <v-container >
@@ -271,6 +271,8 @@
         searchKey:'',
         moviesList:[],
         randomkeywords:['Shaman','Lord','Capitan','Super','naruto'],
+        randomSerials:['Arrow','office','friends'],
+        randomMovies:['Superman','Batman','Avengers'],
         current: [],
         commentsForCurrent: [],
         // currentMovie: this.current.Title,
@@ -303,7 +305,7 @@
     },
     methods: {
       onComment(){
-         this.$store.dispatch('createComment', {content: this.comment, movie: this.current.Title}).then(()=>
+        this.$store.dispatch('createComment', {content: this.comment, movie: this.current.Title}).then(()=>
         {
           this.comment = ""
         })
@@ -312,24 +314,24 @@
         this.$store.dispatch('signUserUp', {email: this.signUpEmail, password: this.signUpPassword}).then(()=>
         {
           this.signUpEmail = "",
-          this.signUpPassword = "",
-          this.confirmPassword = "",
-          this.signUpSmallMenu = false
+                  this.signUpPassword = "",
+                  this.confirmPassword = "",
+                  this.signUpSmallMenu = false
         })
       },
       onLogin () {
         this.$store.dispatch('logUserIn', {email: this.logInEmail, password: this.logInPassword}).then(()=>
         {
           this.logInEmail = "",
-          this.logInPassword = "",
-          this.signUpSmallMenu = false
+                  this.logInPassword = "",
+                  this.signUpSmallMenu = false
         })
       },
       onLogOut() {
         this.$store.dispatch('logUserOut').then(()=>
         {
           this.background = this.posters,
-          this.signUpSmallMenu = false
+                  this.signUpSmallMenu = false
         })
         this.$store.dispatch('LogUserIn', {email: this.logInEmail, password: this.logInPassword})
       },
@@ -341,7 +343,7 @@
                 .then(data=>{
                   this.moviesList=data;
                 })
-                this.signUpSmallMenu = false
+        this.signUpSmallMenu = false
       },
       loadRandom()
       {
@@ -352,8 +354,8 @@
                 .then(data=>{
                   this.moviesList=data;
                 })
-                this.signUpSmallMenu = false
-      
+        this.signUpSmallMenu = false
+
       },
       setCurrent(movie)
       {
@@ -362,15 +364,37 @@
                 .then(response=>response.json())
                 .then(data=>{
                   this.current=data;
-                   this.commentsForCurrent = []
-                  for (let i=0;i<this.commentsFromDB.length;i++){                   
-                  if(this.commentsFromDB[i].movie == this.current.Title)
-                  {
-                    this.commentsForCurrent.push(this.commentsFromDB[i])
+                  this.commentsForCurrent = []
+                  for (let i=0;i<this.commentsFromDB.length;i++){
+                    if(this.commentsFromDB[i].movie == this.current.Title)
+                    {
+                      this.commentsForCurrent.push(this.commentsFromDB[i])
+                    }
                   }
-                }
                 })
-               
+
+      },
+      searchOnlyMovies()
+      {
+        const randomElement = this.randomMovies[Math.floor(Math.random() * this.randomMovies.length)];
+        var url = 'http://www.omdbapi.com/?s=' + randomElement + '&apikey=8dc936a1&type=movie';
+        fetch(url)
+                .then(response=>response.json())
+                .then(data=>{
+                  this.moviesList=data;
+                })
+        this.signUpSmallMenu = false
+      },
+      searchSerials()
+      {
+        const randomElement = this.randomSerials[Math.floor(Math.random() * this.randomSerials.length)];
+        var url = 'http://www.omdbapi.com/?s=' + randomElement + '&apikey=8dc936a1&type=series';
+        fetch(url)
+                .then(response=>response.json())
+                .then(data=>{
+                  this.moviesList=data;
+                })
+        this.signUpSmallMenu = false
       },
       // selectPlotandTitle()
       // {
