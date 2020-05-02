@@ -109,13 +109,14 @@
       <body style="background-color: #010105;">
 
       <div class="row" v-if="isAuthenticated">
-        <v-dialog dark v-model="InfoDialog" persistent max-width="600px">
+        <span class="border border-blue"></span>
+        <v-dialog dark v-model="InfoDialog" persistent max-width="1000px">
           <v-card>
             <v-card-text>
               <v-container>
-<!--                Title: {{currnet.Title}}-->
+<!--                Title: {{currnet.Title}}
                 Year: {{current.Year}} <br>
-                Plot: {{current.Plot}}
+                Plot: {{current.Plot}} -->
               </v-container>
             </v-card-text>
             <v-card-actions>
