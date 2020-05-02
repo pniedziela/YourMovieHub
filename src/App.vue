@@ -110,7 +110,8 @@
 
       <div class="row" v-if="isAuthenticated">
         <span class="border border-blue"></span>
-        <v-dialog dark v-model="InfoDialog" persistent max-width="1000px">
+        <v-dialog dark v-model="InfoDialog" max-width="1000px">
+          <v-btn depressed large class="light-blue white--text" style="min-width:1000px">Opis Filmu</v-btn>
           <v-card>
             <v-card-text>
               <v-container>
