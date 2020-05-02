@@ -68,28 +68,71 @@
             <v-dialog dark v-model="logInDialog" persistent max-width="600px">
         <template v-slot:activator="{ on }">
           <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1 hidden-sm-and-down" text v-on="on">Zaloguj się</v-btn>
+        </template>         
+            <v-card>
+              <v-card-title>
+                <span class="headline">Zaloguj się</span>
+              </v-card-title>
+              <v-card-text>
+                <v-container>
+                  <v-row>
+                    <v-col cols="12">
+                      <v-text-field
+                              label="Email"
+                              type="email"
+                              id="logInEmail"
+                              v-model="logInEmail"
+                              required></v-text-field>
+                    </v-col>
+                    <v-col cols="12">
+                      <v-text-field
+                              label="Hasło"
+                              type="password"
+                              id="logInPassword"
+                              v-model="logInPassword"
+                              required></v-text-field>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn depressed large  class="light-blue white--text btn btn-outline-primary mr-1" text @click="logInDialog = false">Zamknij</v-btn>
+                <v-btn depressed large  class="light-blue white--text btn btn-outline-primary mr-1" text @click="logInDialog = false , onLogin()">Zaloguj</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog> 
         </template>
+      <v-dialog dark v-model="commentDialog" persistent max-width="600px" @save.prevent="onSignup">       
         <v-card>
           <v-card-title>
-            <span class="headline">Zaloguj się</span>
+            <span class="headline">Komentarze</span>
           </v-card-title>
           <v-card-text>
+            <v-flex d-flex>
+              <v-layout wrap>
+                  <v-flex md10 v-for="item in commentsForCurrent" :key="item.user">
+                      <v-row>
+                      <v-card>                      
+                       <v-card-title>
+                        <span class="headline">{{ item.user }}</span>
+                      </v-card-title>
+                        <span class="card-container">
+                          {{ item.content }}
+                        </span>
+                        </v-card>
+                      </v-row>
+                  </v-flex>
+              </v-layout>
+            </v-flex>
             <v-container>
-              <v-row>
+              <v-row>               
                 <v-col cols="12">
                   <v-text-field
-                  label="Email"
-                  type="email"
-                  id="logInEmail"
-                  v-model="logInEmail"
-                  required></v-text-field>
-                </v-col>
-                <v-col cols="12">
-                  <v-text-field
-                  label="Hasło"
-                  type="password"
-                  id="logInPassword"
-                  v-model="logInPassword"
+                  label="Komentarz"
+                  type="comment"
+                  id="comment"
+                  v-model="comment"
                   required></v-text-field>
                 </v-col>
               </v-row>
@@ -97,13 +140,13 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="logInDialog = false">Zamknij</v-btn>
-            <v-btn color="blue darken-1" text @click="logInDialog = false , onLogin()">Zaloguj</v-btn>
+            <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text @click="commentDialog = false">Zamknij</v-btn>
+            <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text @click="onComment()" type ="submit">Skomentuj</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
       
-      </template>
+     
 
       <v-icon depressed large class="white--text hidden-sm-and-down" v-if="isAuthenticated">mdi-account</v-icon>
       <span depressed large class="white--text hidden-sm-and-down" v-if="isAuthenticated">Witaj, {{user.split("@")[0]}}</span>
@@ -161,46 +204,32 @@
       <body style="background-color: #010105;">
 
       <div class="row" v-if="isAuthenticated">
-
-
+        <span class="border border-blue"></span>
+        <v-dialog dark v-model="InfoDialog" max-width="1000px">
+          <v-btn depressed large class="light-blue white--text" style="min-width:1000px">Opis Filmu</v-btn>          
+          <v-card>
+            <v-card-text>
+              <v-container >
+                {{current.Plot}}
+              </v-container>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text @click="commentDialog = true">Komentarze</v-btn>
+              <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text @click="InfoDialog = false">Zamknij</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
         <div class="row" style="margin:5px; float: left; border:5px solid;">
-          <div class="column">
-          <img style="width: 100%; height: auto" v-bind:src="moviesList.Search[0].Poster">
-          <div class="title white--text"  style="padding: 15px; text-align: center">{{moviesList.Search[0].Title}}</div>
-          </div>
-          <div class="column">
-          <img style="width: 100%; height: auto" v-bind:src="moviesList.Search[1].Poster">
-          <div class="title white--text" style="padding: 15px; text-align: center">{{moviesList.Search[1].Title}}</div>
-          </div>
-          <div class="column">
-          <img style="width: 100%; height: auto" v-bind:src="moviesList.Search[2].Poster">
-          <div class="title white--text" style="padding: 15px; text-align: center">{{moviesList.Search[2].Title}}</div>
-          </div>
-          <div class="column">
-          <img style="width: 100%; height: auto" v-bind:src="moviesList.Search[3].Poster">
-          <div class="title white--text" style="padding: 15px; text-align: center">{{moviesList.Search[3].Title}}</div>
-          </div>
-        </div>
-        <div class="row" style="margin:5px; float: left; border:5px solid;">
-          <div class="column">
-            <img style="width: 100%; height: auto" v-bind:src="moviesList.Search[4].Poster">
-            <div class="title white--text"  style="padding: 15px; text-align: center">{{moviesList.Search[4].Title}}</div>
-          </div>
-          <div class="column">
-            <img style="width: 100%; height: auto" v-bind:src="moviesList.Search[5].Poster">
-            <div class="title white--text" style="padding: 15px; text-align: center">{{moviesList.Search[5].Title}}</div>
-          </div>
-          <div class="column">
-            <img style="width: 100%; height: auto" v-bind:src="moviesList.Search[6].Poster">
-            <div class="title white--text" style="padding: 15px; text-align: center">{{moviesList.Search[6].Title}}</div>
-          </div>
-          <div class="column">
-            <img style="width: 100%; height: auto" v-bind:src="moviesList.Search[7].Poster">
-            <div class="title white--text" style="padding: 15px; text-align: center">{{moviesList.Search[7].Title}}</div>
+          <div v-for="(movie, movieKey) in moviesList.Search" :key="movieKey" v-bind:class="{'selected':current === movie}" v-on:click="setCurrent(movie)" >
+            <div class="column">
+              <v-img style="width: 100%; height: auto" v-bind:src="movie.Poster" @click="InfoDialog = true"></v-img>
+              <div id="toSelect" class="title white--text" style="color: darkgray">{{movie.Title}}</div>
+            </div>
           </div>
         </div>
       </div>
-  </body>
+      </body>
 
       <v-footer class="pa-3" color="#000000" dark fixed>
         <v-spacer></v-spacer>
@@ -228,17 +257,24 @@
         confirmPassword: '',
         logInEmail: '',
         logInPassword: '',
+        comment: '',
         signUpDialog: false,
         logInDialog: false,
         signUpSmallMenu: false,
         searchSmallMenu: false,
+        commentDialog: false,
+        InfoDialog: false,
         films: [],
         search:'',
         background: 'url(https://www.bu.edu/files/2020/02/Oscar-Predictions-Posters.jpg)',
         posters: 'url(https://www.bu.edu/files/2020/02/Oscar-Predictions-Posters.jpg)',
         searchKey:'',
         moviesList:[],
-        randomkeywords:['Shaman','Lord','Capitan','Super','naruto']
+        randomkeywords:['Shaman','Lord','Capitan','Super','naruto'],
+        current: [],
+        commentsForCurrent: [],
+        // currentMovie: this.current.Title,
+        // currentPlot: this.current.Plot
       }
     },
     computed: {
@@ -253,16 +289,25 @@
       },
       isAuthenticated() {
         return this.$store.getters.isAuthenticated
+      },
+      commentsFromDB() {
+        return this.$store.getters.loadedComments
       }
     },
     watch: {
       user (value) {
         if(value !== null && value !== undefined) {
-         this.background = '';
+          this.background = '';
         }
-      }  
+      }
     },
     methods: {
+      onComment(){
+         this.$store.dispatch('createComment', {content: this.comment, movie: this.current.Title}).then(()=>
+        {
+          this.comment = ""
+        })
+      },
       onSignup () {
         this.$store.dispatch('signUserUp', {email: this.signUpEmail, password: this.signUpPassword}).then(()=>
         {
@@ -308,20 +353,42 @@
                   this.moviesList=data;
                 })
                 this.signUpSmallMenu = false
-      }
+      
+      },
+      setCurrent(movie)
+      {
+        var url = 'http://www.omdbapi.com/?i=' + movie.imdbID + '&apikey=8dc936a1&';
+        fetch(url)
+                .then(response=>response.json())
+                .then(data=>{
+                  this.current=data;
+                   this.commentsForCurrent = []
+                  for (let i=0;i<this.commentsFromDB.length;i++){                   
+                  if(this.commentsFromDB[i].movie == this.current.Title)
+                  {
+                    this.commentsForCurrent.push(this.commentsFromDB[i])
+                  }
+                }
+                })
+               
+      },
+      // selectPlotandTitle()
+      // {
+      //   this.currentMovie = this.current.Title;
+      //   this.currentPlot = this.current.Plot;
+      // }
     }
   }
 </script>
 
 <style>
-
-.row {
-  display: flex;
-}
-
-.column {
-  flex: 10%;
-  padding: 5px;
-}
+  .row {
+    display: flex;
+    display: inline-block
+  }
+  .column {
+    flex: 10%;
+    padding: 5px;
+    text-align: center;
+  }
 </style>
-

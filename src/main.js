@@ -25,5 +25,7 @@ new Vue({
       storageBucket: 'youmoviehub.appspot.com'
 
     })
+
+    this.$store.dispatch('loadCommentsForMovie')
   }
 }).$mount('#app')
