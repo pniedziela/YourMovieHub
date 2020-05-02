@@ -113,7 +113,7 @@
         <v-dialog dark v-model="InfoDialog" max-width="1000px">
           <v-btn depressed large class="light-blue white--text" style="min-width:1000px">Opis Filmu</v-btn>          <v-card>
             <v-card-text>
-              <v-container>
+              <v-container >
                 {{current.Plot}}
               </v-container>
             </v-card-text>
