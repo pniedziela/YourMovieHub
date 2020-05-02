@@ -109,11 +109,12 @@
       <body style="background-color: #010105;">
 
       <div class="row" v-if="isAuthenticated">
-        <v-dialog dark v-model="InfoDialog" persistent max-width="600px">
-          <v-card>
+        <span class="border border-blue"></span>
+        <v-dialog dark v-model="InfoDialog" max-width="1000px">
+          <v-btn depressed large class="light-blue white--text" style="min-width:1000px">Opis Filmu</v-btn>          <v-card>
             <v-card-text>
               <v-container>
-                Story line: {{current.Plot}}
+                {{current.Plot}}
               </v-container>
             </v-card-text>
             <v-card-actions>
