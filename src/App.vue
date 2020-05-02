@@ -7,14 +7,14 @@
         <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1 hidden-md-and-up" text v-on="on" @click="signUpSmallMenu = true" >Menu</v-btn>
         <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1 hidden-md-and-up" text v-on="on" @click="searchSmallMenu = true" v-if="isAuthenticated">Wyszukaj</v-btn>
         <template v-if="isAuthenticated">
-          <v-toolbar-items class="hidden-sm-and-down">
-            <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" v-on:click="searchOnlyMovies">FILMY</v-btn>
-            <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" v-on:click="searchSerials">SERIALE</v-btn>
-            <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" v-on:click="loadRandom">POLECANE</v-btn>
-            <v-btn depressed large  class="light-blue white--text btn btn-outline-primary mr-1" v-on:click="loadStayHome">#ZOSTAŃ W DOMU</v-btn>
-          </v-toolbar-items>
+          
+            <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1 hidden-sm-and-down" v-on:click="searchOnlyMovies">FILMY</v-btn>
+            <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1 hidden-sm-and-down" v-on:click="searchSerials">SERIALE</v-btn>
+            <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1 hidden-sm-and-down" v-on:click="loadRandom">POLECANE</v-btn>
+            <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1 hidden-sm-and-down" v-on:click="loadStayHome">#ZOSTAŃ W DOMU</v-btn>
+          
           <input class="white--text hidden-sm-and-down" type="text" v-model="searchKey" placeholder="Wyszukaj film,serial"/>
-          <v-btn depressed large  class="light-blue white--text hidden-sm-and-down" v-on:click="searchMovies">Szukaj</v-btn>
+          <v-btn depressed large class="light-blue white--text hidden-sm-and-down" v-on:click="searchMovies">Szukaj</v-btn>
         </template>
         <template v-else>
           <v-spacer></v-spacer>
