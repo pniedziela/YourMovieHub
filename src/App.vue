@@ -10,8 +10,8 @@
           <v-toolbar-items class="hidden-sm-and-down">
             <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" v-on:click="searchOnlyMovies">FILMY</v-btn>
             <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" v-on:click="searchSerials">SERIALE</v-btn>
-            <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1">POLECANE</v-btn>
-            <v-btn depressed large  class="light-blue white--text btn btn-outline-primary mr-1">#ZOSTAŃ W DOMU</v-btn>
+            <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" v-on:click="loadRandom">POLECANE</v-btn>
+            <v-btn depressed large  class="light-blue white--text btn btn-outline-primary mr-1" v-on:click="loadStayHome">#ZOSTAŃ W DOMU</v-btn>
           </v-toolbar-items>
           <input class="white--text hidden-sm-and-down" type="text" v-model="searchKey" placeholder="Wyszukaj film,serial"/>
           <v-btn depressed large  class="light-blue white--text hidden-sm-and-down" v-on:click="searchMovies">Szukaj</v-btn>
@@ -273,6 +273,7 @@
         randomkeywords:['Shaman','Lord','Capitan','Super','naruto'],
         randomSerials:['Arrow','office','friends'],
         randomMovies:['Superman','Batman','Avengers'],
+        randomStayHome:['Naruto','Bleach'],
         current: [],
         commentsForCurrent: [],
         // currentMovie: this.current.Title,
@@ -385,17 +386,27 @@
                 })
         this.signUpSmallMenu = false
       },
-      searchSerials()
-      {
+      searchSerials() {
         const randomElement = this.randomSerials[Math.floor(Math.random() * this.randomSerials.length)];
         var url = 'http://www.omdbapi.com/?s=' + randomElement + '&apikey=8dc936a1&type=series';
+        fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                  this.moviesList = data;
+                })
+        this.signUpSmallMenu = false
+      },
+      loadStayHome()
+      {
+        const randomElement = this.randomStayHome[Math.floor(Math.random() * this.randomStayHome.length)];
+        var url = 'http://www.omdbapi.com/?s=' + randomElement + '&apikey=8dc936a1&';
         fetch(url)
                 .then(response=>response.json())
                 .then(data=>{
                   this.moviesList=data;
                 })
         this.signUpSmallMenu = false
-      },
+      }
       // selectPlotandTitle()
       // {
       //   this.currentMovie = this.current.Title;
