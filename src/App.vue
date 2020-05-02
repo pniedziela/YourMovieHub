@@ -109,15 +109,11 @@
       <body style="background-color: #010105;">
 
       <div class="row" v-if="isAuthenticated">
-        <span class="border border-blue"></span>
-        <v-dialog dark v-model="InfoDialog" max-width="1000px">
-          <v-btn depressed large class="light-blue white--text" style="min-width:1000px">Opis Filmu</v-btn>
+        <v-dialog dark v-model="InfoDialog" persistent max-width="600px">
           <v-card>
             <v-card-text>
               <v-container>
-<!--                Title: {{currnet.Title}}
-                Year: {{current.Year}} <br>
-                Plot: {{current.Plot}} -->
+                Story line: {{current.Plot}}
               </v-container>
             </v-card-text>
             <v-card-actions>
@@ -127,7 +123,7 @@
           </v-card>
         </v-dialog>
         <div class="row" style="margin:5px; float: left; border:5px solid;">
-          <div v-for="(movie, movieKey) in moviesList.Search" :key="movieKey" v-bind:class="{'selected':current === movie}" v-on:click="setCurrent(movie)">
+          <div v-for="(movie, movieKey) in moviesList.Search" :key="movieKey" v-bind:class="{'selected':current === movie}" v-on:click="setCurrent(movie)" >
             <div class="column">
               <v-img style="width: 100%; height: auto" v-bind:src="movie.Poster" @click="InfoDialog = true"></v-img>
               <div id="toSelect" class="title white--text" style="color: darkgray">{{movie.Title}}</div>
@@ -173,7 +169,9 @@
         searchKey:'',
         moviesList:[],
         randomkeywords:['Shaman','Lord','Capitan','Super','naruto'],
-        current: null
+        current: [],
+        // currentMovie: this.current.Title,
+        // currentPlot: this.current.Plot
       }
     },
     computed: {
@@ -247,7 +245,12 @@
                 .then(data=>{
                   this.current=data;
                 })
-      }
+      },
+      // selectPlotandTitle()
+      // {
+      //   this.currentMovie = this.current.Title;
+      //   this.currentPlot = this.current.Plot;
+      // }
     }
   }
 </script>
@@ -255,9 +258,11 @@
 <style>
   .row {
     display: flex;
+    display: inline-block
   }
   .column {
     flex: 10%;
     padding: 5px;
+    text-align: center;
   }
 </style>
