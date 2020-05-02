@@ -99,19 +99,62 @@
               </v-card-actions>
             </v-card>
           </v-dialog>
-        </template>
-
-        <v-icon depressed large class="white--text" v-if="isAuthenticated">mdi-account</v-icon>
-        <span depressed large class="white--text" v-if="isAuthenticated">Witaj, {{user.split("@")[0]}}</span>
-        <div class="mx-2"></div>
-        <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text v-if="isAuthenticated" @click="onLogOut()">Wyloguj się</v-btn>
-      </v-toolbar>
+      
+      </template> 
+      <v-dialog dark v-model="commentDialog" persistent max-width="600px" @save.prevent="onSignup"  v-if="isAuthenticated">       
+        <v-card>
+          <v-card-title>
+            <span class="headline">Komentarze</span>
+          </v-card-title>
+          <v-card-text>
+            <v-flex d-flex>
+              <v-layout wrap>
+                  <v-flex md10 v-for="item in commentsForCurrent" :key="item.user">
+                      <v-row>
+                      <v-card>                      
+                       <v-card-title>
+                        <span class="headline">{{ item.user }}</span>
+                      </v-card-title>
+                        <span class="card-container">
+                          {{ item.content }}
+                        </span>
+                        </v-card>
+                      </v-row>
+                  </v-flex>
+              </v-layout>
+            </v-flex>
+            <v-container>
+              <v-row>               
+                <v-col cols="12">
+                  <v-text-field
+                  label="Komentarz"
+                  type="comment"
+                  id="comment"
+                  v-model="comment"
+                  required></v-text-field>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text @click="commentDialog = false">Zamknij</v-btn>
+            <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text @click="onComment()" type ="submit">Skomentuj</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>              
+      <v-icon depressed large class="white--text" v-if="isAuthenticated">mdi-account</v-icon>
+      <span depressed large class="white--text" v-if="isAuthenticated">Witaj, {{user.split("@")[0]}}</span>
+    <div class="mx-2"></div>
+       <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text v-if="isAuthenticated" @click="onLogOut()">Wyloguj się</v-btn>
+        </v-toolbar>
       <body style="background-color: #010105;">
 
       <div class="row" v-if="isAuthenticated">
         <span class="border border-blue"></span>
         <v-dialog dark v-model="InfoDialog" max-width="1000px">
-          <v-btn depressed large class="light-blue white--text" style="min-width:1000px">Opis Filmu</v-btn>          <v-card>
+          <v-btn depressed large class="light-blue white--text" style="min-width:1000px">Opis Filmu</v-btn>          
+          <v-card>
             <v-card-text>
               <v-container >
                 {{current.Plot}}
@@ -119,6 +162,7 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
+              <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text @click="commentDialog = true">Komentarze</v-btn>
               <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text @click="InfoDialog = false">Zamknij</v-btn>
             </v-card-actions>
           </v-card>
@@ -160,8 +204,10 @@
         confirmPassword: '',
         logInEmail: '',
         logInPassword: '',
+        comment: '',
         signUpDialog: false,
         logInDialog: false,
+        commentDialog: false,
         InfoDialog: false,
         films: [],
         search:'',
@@ -171,6 +217,7 @@
         moviesList:[],
         randomkeywords:['Shaman','Lord','Capitan','Super','naruto'],
         current: [],
+        commentsForCurrent: [],
         // currentMovie: this.current.Title,
         // currentPlot: this.current.Plot
       }
@@ -187,6 +234,9 @@
       },
       isAuthenticated() {
         return this.$store.getters.isAuthenticated
+      },
+      commentsFromDB() {
+        return this.$store.getters.loadedComments
       }
     },
     watch: {
@@ -197,6 +247,12 @@
       }
     },
     methods: {
+      onComment(){
+         this.$store.dispatch('createComment', {content: this.comment, movie: this.current.Title}).then(()=>
+        {
+          this.comment = ""
+        })
+      },
       onSignup () {
         this.$store.dispatch('signUserUp', {email: this.signUpEmail, password: this.signUpPassword}).then(()=>
         {
@@ -245,7 +301,15 @@
                 .then(response=>response.json())
                 .then(data=>{
                   this.current=data;
+                   this.commentsForCurrent = []
+                  for (let i=0;i<this.commentsFromDB.length;i++){                   
+                  if(this.commentsFromDB[i].movie == this.current.Title)
+                  {
+                    this.commentsForCurrent.push(this.commentsFromDB[i])
+                  }
+                }
                 })
+               
       },
       // selectPlotandTitle()
       // {

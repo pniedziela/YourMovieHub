@@ -6,19 +6,58 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({ 
   state: {
     user: null,
-    isAuthenticated:false
+    isAuthenticated:false,
+    loadedComments: []
   },
   mutations: {    
     setUser (state, payload) {
       state.user = payload;
-      console.log(payload);
     },
     setIsAuthenticated(state, payload) {    
       state.isAuthenticated = payload
+    },
+    createComment(state, payload) {
+      state.loadedComments.push(payload)
+    },
+    setLoadedComments(state, payload){
+      state.loadedComments = payload
     }
-
   },
     actions: {
+      loadCommentsForMovie({commit}){
+        firebase.database().ref('ymh_comments').once('value')
+          .then((data) => {
+            const comments = []
+            const obj = data.val()
+            for (let key in obj) {
+              comments.push({
+                movie: obj[key].movie,
+                user: obj[key].user,
+                content: obj[key].content,
+              })
+            }
+            commit('setLoadedComments', comments)
+          })
+          .catch((error)=>{
+            console.log(error)
+          })
+      },
+      createComment({commit}, payload){
+        const comment = {
+          content: payload.content,
+          movie: payload.movie,
+          user: this.state.user
+        }
+        //Wysłanie komentarza do bazy
+        firebase.database().ref('ymh_comments').push(comment)
+          .then(() => {
+            commit('createComment', comment)
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+        
+      },
     signUserUp ({commit},payload) {
       firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
       .then(
@@ -62,8 +101,11 @@ export const store = new Vuex.Store({
     user (state) {
       return state.user
     },
-    isAuthenticated (state){
+    isAuthenticated (state) {
       return state.isAuthenticated
+    },
+    loadedComments (state) {
+      return state.loadedComments
     }
   }  
 })
