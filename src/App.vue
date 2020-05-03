@@ -237,7 +237,7 @@
         <div class="row" style="margin:5px; float: left; border:5px solid;">
           <div v-for="(movie, movieKey) in moviesList.Search" :key="movieKey" v-bind:class="{'selected':current === movie}" v-on:click="setCurrent(movie)" >
             <div class="column">
-              <v-img style="width: 100%; height: auto" v-bind:src="movie.Poster" @click="InfoDialog = true"></v-img>
+              <v-img class="mdi-image" style="width: 100%;" v-bind:src="movie.Poster" @click="InfoDialog = true"></v-img>
               <div id="toSelect" class="title white--text" style="color: darkgray">{{movie.Title}}</div>
             </div>
           </div>
@@ -267,9 +267,9 @@
     },
     data () {
       return {
-        emptyIcon: 'mdi-heart-outline',
-        fullIcon: 'mdi-heart',
-        halfIcon: 'mdi-heart-half-full',
+        emptyIcon: 'mdi-star-outline',
+        fullIcon: 'mdi-star',
+        halfIcon: 'mdi-star-half-full',
         halfIncrements: true,
         hover: true,
         length: 5,
