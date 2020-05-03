@@ -228,6 +228,7 @@
                       :color="color"
                       :background-color="bgColor"
               ></v-rating>
+              <div class="title white--text" style="color: darkgray">Średnia ocena: {{meanRating}}/5</div>
               <v-spacer></v-spacer>
               <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text @click="commentDialog = true">Komentarze</v-btn>
               <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text @click="InfoDialog = false, rateMovie()">Zamknij</v-btn>
@@ -315,6 +316,8 @@
         InfoDialog: false,
         films: [],
         search:'',
+        rate: 0,
+        count:0,
         background: 'url(https://www.bu.edu/files/2020/02/Oscar-Predictions-Posters.jpg)',
         posters: 'url(https://www.bu.edu/files/2020/02/Oscar-Predictions-Posters.jpg)',
         searchKey:'',
@@ -325,8 +328,6 @@
         randomStayHome:['Naruto','Bleach'],
         current: [],
         commentsForCurrent: [],
-        // currentMovie: this.current.Title,
-        // currentPlot: this.current.Plot
       }
     },
     computed: {
@@ -348,7 +349,9 @@
       ratingsFromDB() {
         return this.$store.getters.loadedRatings
       },
-      
+      meanRating(){        
+        return this.rate/this.count
+      },
     },
     watch: {
       user (value) {
@@ -427,6 +430,9 @@
                   this.current=data;
                   this.setCommentsForCurrent();
                   this.setRatingForCurrent();
+                  this.rate = 0
+                  this. count = 0
+                  this.calculateRateForCurrent()
                 })
 
       },
@@ -488,7 +494,19 @@
                       this.commentsForCurrent.push(this.commentsFromDB[i])
                     }
                   }
-      }            
+      },
+      calculateRateForCurrent(){
+        for (let i=0;i<this.ratingsFromDB.length;i++){
+                    if(this.ratingsFromDB[i].movie === this.current.Title)
+                    {
+                     this.rate += this.ratingsFromDB[i].rating
+                     this.count += 1
+                    }
+                  }
+                  if(this.count === 0){
+                    this.count = 1
+                  }
+      }           
     }
   }
 </script>
