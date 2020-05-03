@@ -27,5 +27,6 @@ new Vue({
     })
 
     this.$store.dispatch('loadCommentsForMovie')
+    this.$store.dispatch('loadRatings')
   }
 }).$mount('#app')

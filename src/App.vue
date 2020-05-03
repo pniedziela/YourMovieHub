@@ -173,13 +173,13 @@
                        v-if="!isAuthenticated">
                   Zaloguj się
                 </v-btn>
-                <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-5" v-if="isAuthenticated">FILMY</v-btn>
+                <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-5" v-if="isAuthenticated" v-on:click="searchOnlyMovies">FILMY</v-btn>
 
-                <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-5" v-if="isAuthenticated">SERIALE</v-btn>
+                <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-5" v-if="isAuthenticated" v-on:click="searchSerials">SERIALE</v-btn>
 
-                <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-5" v-if="isAuthenticated">POLECANE</v-btn>
+                <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-5" v-if="isAuthenticated" v-on:click="loadRandom">POLECANE</v-btn>
 
-                <v-btn depressed large  class="light-blue white--text btn btn-outline-primary mr-5" v-if="isAuthenticated">#ZOSTAŃ W DOMU</v-btn>
+                <v-btn depressed large  class="light-blue white--text btn btn-outline-primary mr-5" v-if="isAuthenticated" v-on:click="loadStayHome">#ZOSTAŃ W DOMU</v-btn>
 
                 <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-10" text  @click="onLogOut()" v-if="isAuthenticated">Wyloguj się</v-btn>
               </v-row>
@@ -228,9 +228,10 @@
                       :color="color"
                       :background-color="bgColor"
               ></v-rating>
+              <div class="title white--text" style="color: darkgray">Średnia ocena: {{meanRating}}/5</div>
               <v-spacer></v-spacer>
               <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text @click="commentDialog = true">Komentarze</v-btn>
-              <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text @click="InfoDialog = false">Zamknij</v-btn>
+              <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text @click="InfoDialog = false, rateMovie()">Zamknij</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -273,7 +274,8 @@
         halfIncrements: true,
         hover: true,
         length: 5,
-        rating: 2,
+        rating: 0,
+        currentRating: 0,
         readonly: false,
         size: 64,
         dense: false,
@@ -314,6 +316,8 @@
         InfoDialog: false,
         films: [],
         search:'',
+        rate: 0,
+        count:0,
         background: 'url(https://www.bu.edu/files/2020/02/Oscar-Predictions-Posters.jpg)',
         posters: 'url(https://www.bu.edu/files/2020/02/Oscar-Predictions-Posters.jpg)',
         searchKey:'',
@@ -324,8 +328,6 @@
         randomStayHome:['Naruto','Bleach'],
         current: [],
         commentsForCurrent: [],
-        // currentMovie: this.current.Title,
-        // currentPlot: this.current.Plot
       }
     },
     computed: {
@@ -343,7 +345,13 @@
       },
       commentsFromDB() {
         return this.$store.getters.loadedComments
-      }
+      },
+      ratingsFromDB() {
+        return this.$store.getters.loadedRatings
+      },
+      meanRating(){        
+        return this.rate/this.count
+      },
     },
     watch: {
       user (value) {
@@ -355,8 +363,15 @@
     methods: {
       onComment(){
         this.$store.dispatch('createComment', {content: this.comment, movie: this.current.Title}).then(()=>
-        {
-          this.comment = ""
+        {  
+          const newComment = {
+          content: this.comment,
+          movie: this.current.Title,
+          user: this.user
+        }
+          this.commentsForCurrent.push(newComment)
+          this.comment = "" 
+                    
         })
       },
       onSignup () {
@@ -413,13 +428,11 @@
                 .then(response=>response.json())
                 .then(data=>{
                   this.current=data;
-                  this.commentsForCurrent = []
-                  for (let i=0;i<this.commentsFromDB.length;i++){
-                    if(this.commentsFromDB[i].movie == this.current.Title)
-                    {
-                      this.commentsForCurrent.push(this.commentsFromDB[i])
-                    }
-                  }
+                  this.setCommentsForCurrent();
+                  this.setRatingForCurrent();
+                  this.rate = 0
+                  this. count = 0
+                  this.calculateRateForCurrent()
                 })
 
       },
@@ -454,12 +467,46 @@
                   this.moviesList=data;
                 })
         this.signUpSmallMenu = false
-      }
-      // selectPlotandTitle()
-      // {
-      //   this.currentMovie = this.current.Title;
-      //   this.currentPlot = this.current.Plot;
-      // }
+      },
+      rateMovie(){
+        if(this.rating !== 0 && this.rating !== this.currentRating) {
+          this.$store.dispatch('addRating', {rating: this.rating, movie: this.current.Title}).then(()=>
+        {
+          this.rating = 0
+        })
+        }        
+      } ,
+      setRatingForCurrent() {         
+          for (let i=0;i<this.ratingsFromDB.length;i++){
+                    if(this.ratingsFromDB[i].movie === this.current.Title && this.ratingsFromDB[i].user === this.user)
+                    {
+                     this.rating = this.ratingsFromDB[i].rating
+                     this.currentRating = this.ratingsFromDB[i].rating
+                    }
+                  }
+      },
+      setCommentsForCurrent(){
+        this.commentsForCurrent = []
+                  for (let i=0;i<this.commentsFromDB.length;i++){                   
+                    if(this.commentsFromDB[i].movie == this.current.Title)
+                    {
+                      console.log(this.commentsFromDB[i].movie)
+                      this.commentsForCurrent.push(this.commentsFromDB[i])
+                    }
+                  }
+      },
+      calculateRateForCurrent(){
+        for (let i=0;i<this.ratingsFromDB.length;i++){
+                    if(this.ratingsFromDB[i].movie === this.current.Title)
+                    {
+                     this.rate += this.ratingsFromDB[i].rating
+                     this.count += 1
+                    }
+                  }
+                  if(this.count === 0){
+                    this.count = 1
+                  }
+      }           
     }
   }
 </script>
