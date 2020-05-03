@@ -214,6 +214,20 @@
               </v-container>
             </v-card-text>
             <v-card-actions>
+              <v-rating
+                      v-model="rating"
+                      :length="length"
+                      :empty-icon="emptyIcon"
+                      :full-icon="fullIcon"
+                      :half-icon="halfIcon"
+                      :half-increments="halfIncrements"
+                      :hover="hover"
+                      :readonly="readonly"
+                      :size="size"
+                      :dense="dense"
+                      :color="color"
+                      :background-color="bgColor"
+              ></v-rating>
               <v-spacer></v-spacer>
               <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text @click="commentDialog = true">Komentarze</v-btn>
               <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text @click="InfoDialog = false">Zamknij</v-btn>
@@ -245,6 +259,7 @@
 </template>
 
 <script>
+
   export default {
     name: 'App',
     mounted:function(){
@@ -252,6 +267,39 @@
     },
     data () {
       return {
+        emptyIcon: 'mdi-heart-outline',
+        fullIcon: 'mdi-heart',
+        halfIcon: 'mdi-heart-half-full',
+        halfIncrements: false,
+        hover: true,
+        length: 5,
+        rating: 2,
+        readonly: false,
+        size: 64,
+        dense: false,
+        color: 'light-blue',
+        colors: [
+          'primary',
+          'warning',
+          'green',
+          'red',
+          'blue',
+          'error',
+          'teal',
+          'light-blue',
+        ],
+        bgColor: 'grey lighten-1',
+        bgColors: [
+          'grey lighten-2',
+          'warning lighten-1',
+          'green lighten-2',
+          'red lighten-2',
+          'grey',
+          '#eee',
+          'cyan lighten-2',
+          'grey lighten-1',
+        ],
+
         signUpEmail: '',
         signUpPassword: '',
         confirmPassword: '',
