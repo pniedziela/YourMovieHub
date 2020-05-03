@@ -24,13 +24,16 @@ export const store = new Vuex.Store({
       state.loadedComments = payload
     },
     addRating(state, payload){
+      state.ratings.push(payload)
+    },
+    setLoadedRaitings(state, payload){
       state.ratings = payload
-    }
+    },
   },
     actions: {
       loadCommentsForMovie({commit}){
         firebase.database().ref('ymh_comments').once('value')
-          .then((data) => {
+          .then((data) => {            
             const comments = []
             const obj = data.val()
             for (let key in obj) {
@@ -41,6 +44,24 @@ export const store = new Vuex.Store({
               })
             }
             commit('setLoadedComments', comments)
+          })
+          .catch((error)=>{
+            console.log(error)
+          })
+      },
+      loadRatings({commit}){
+        firebase.database().ref('ymh_ratings').once('value')
+          .then((data) => {
+            const ratings = []
+            const obj = data.val()
+            for (let key in obj) {
+              ratings.push({
+                movie: obj[key].movie,
+                user: obj[key].user,
+                rating: obj[key].rating,
+              })
+            }
+            commit('setLoadedRaitings', ratings)
           })
           .catch((error)=>{
             console.log(error)
@@ -125,6 +146,9 @@ export const store = new Vuex.Store({
     },
     loadedComments (state) {
       return state.loadedComments
+    },
+    loadedRatings(state){
+      return state.ratings
     }
   }  
 })

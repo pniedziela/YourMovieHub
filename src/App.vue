@@ -173,13 +173,13 @@
                        v-if="!isAuthenticated">
                   Zaloguj się
                 </v-btn>
-                <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-5" v-if="isAuthenticated">FILMY</v-btn>
+                <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-5" v-if="isAuthenticated" v-on:click="searchOnlyMovies">FILMY</v-btn>
 
-                <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-5" v-if="isAuthenticated">SERIALE</v-btn>
+                <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-5" v-if="isAuthenticated" v-on:click="searchSerials">SERIALE</v-btn>
 
-                <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-5" v-if="isAuthenticated">POLECANE</v-btn>
+                <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-5" v-if="isAuthenticated" v-on:click="loadRandom">POLECANE</v-btn>
 
-                <v-btn depressed large  class="light-blue white--text btn btn-outline-primary mr-5" v-if="isAuthenticated">#ZOSTAŃ W DOMU</v-btn>
+                <v-btn depressed large  class="light-blue white--text btn btn-outline-primary mr-5" v-if="isAuthenticated" v-on:click="loadStayHome">#ZOSTAŃ W DOMU</v-btn>
 
                 <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-10" text  @click="onLogOut()" v-if="isAuthenticated">Wyloguj się</v-btn>
               </v-row>
@@ -274,6 +274,7 @@
         hover: true,
         length: 5,
         rating: 0,
+        currentRating: 0,
         readonly: false,
         size: 64,
         dense: false,
@@ -343,7 +344,11 @@
       },
       commentsFromDB() {
         return this.$store.getters.loadedComments
-      }
+      },
+      ratingsFromDB() {
+        return this.$store.getters.loadedRatings
+      },
+      
     },
     watch: {
       user (value) {
@@ -355,8 +360,15 @@
     methods: {
       onComment(){
         this.$store.dispatch('createComment', {content: this.comment, movie: this.current.Title}).then(()=>
-        {
-          this.comment = ""
+        {  
+          const newComment = {
+          content: this.comment,
+          movie: this.current.Title,
+          user: this.user
+        }
+          this.commentsForCurrent.push(newComment)
+          this.comment = "" 
+                    
         })
       },
       onSignup () {
@@ -413,13 +425,8 @@
                 .then(response=>response.json())
                 .then(data=>{
                   this.current=data;
-                  this.commentsForCurrent = []
-                  for (let i=0;i<this.commentsFromDB.length;i++){
-                    if(this.commentsFromDB[i].movie == this.current.Title)
-                    {
-                      this.commentsForCurrent.push(this.commentsFromDB[i])
-                    }
-                  }
+                  this.setCommentsForCurrent();
+                  this.setRatingForCurrent();
                 })
 
       },
@@ -456,13 +463,32 @@
         this.signUpSmallMenu = false
       },
       rateMovie(){
-        if(this.rating !== 0){
+        if(this.rating !== 0 && this.rating !== this.currentRating) {
           this.$store.dispatch('addRating', {rating: this.rating, movie: this.current.Title}).then(()=>
         {
           this.rating = 0
         })
-        }       
-      }      
+        }        
+      } ,
+      setRatingForCurrent() {         
+          for (let i=0;i<this.ratingsFromDB.length;i++){
+                    if(this.ratingsFromDB[i].movie === this.current.Title && this.ratingsFromDB[i].user === this.user)
+                    {
+                     this.rating = this.ratingsFromDB[i].rating
+                     this.currentRating = this.ratingsFromDB[i].rating
+                    }
+                  }
+      },
+      setCommentsForCurrent(){
+        this.commentsForCurrent = []
+                  for (let i=0;i<this.commentsFromDB.length;i++){                   
+                    if(this.commentsFromDB[i].movie == this.current.Title)
+                    {
+                      console.log(this.commentsFromDB[i].movie)
+                      this.commentsForCurrent.push(this.commentsFromDB[i])
+                    }
+                  }
+      }            
     }
   }
 </script>
