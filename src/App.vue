@@ -230,7 +230,7 @@
               ></v-rating>
               <v-spacer></v-spacer>
               <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text @click="commentDialog = true">Komentarze</v-btn>
-              <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text @click="InfoDialog = false">Zamknij</v-btn>
+              <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text @click="InfoDialog = false, rateMovie()">Zamknij</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -270,10 +270,10 @@
         emptyIcon: 'mdi-heart-outline',
         fullIcon: 'mdi-heart',
         halfIcon: 'mdi-heart-half-full',
-        halfIncrements: false,
+        halfIncrements: true,
         hover: true,
         length: 5,
-        rating: 2,
+        rating: 0,
         readonly: false,
         size: 64,
         dense: false,
@@ -454,12 +454,15 @@
                   this.moviesList=data;
                 })
         this.signUpSmallMenu = false
-      }
-      // selectPlotandTitle()
-      // {
-      //   this.currentMovie = this.current.Title;
-      //   this.currentPlot = this.current.Plot;
-      // }
+      },
+      rateMovie(){
+        if(this.rating !== 0){
+          this.$store.dispatch('addRating', {rating: this.rating, movie: this.current.Title}).then(()=>
+        {
+          this.rating = 0
+        })
+        }       
+      }      
     }
   }
 </script>

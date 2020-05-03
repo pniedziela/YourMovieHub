@@ -7,7 +7,8 @@ export const store = new Vuex.Store({
   state: {
     user: null,
     isAuthenticated:false,
-    loadedComments: []
+    loadedComments: [],
+    ratings:[],
   },
   mutations: {    
     setUser (state, payload) {
@@ -21,6 +22,9 @@ export const store = new Vuex.Store({
     },
     setLoadedComments(state, payload){
       state.loadedComments = payload
+    },
+    addRating(state, payload){
+      state.ratings = payload
     }
   },
     actions: {
@@ -57,6 +61,21 @@ export const store = new Vuex.Store({
             console.log(error)
           })
         
+      },
+      addRating({commit},payload){
+          const rating = {
+            rating: payload.rating,
+            movie: payload.movie,
+            user: this.state.user
+          }
+          //Wysłanie oceny do bazy
+        firebase.database().ref('ymh_ratings').push(rating)
+        .then(() => {
+          commit('addRating', rating)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
       },
     signUserUp ({commit},payload) {
       firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
