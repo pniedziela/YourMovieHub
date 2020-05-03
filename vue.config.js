@@ -2,5 +2,5 @@ module.exports = {
   "transpileDependencies": [
     "vuetify"
   ],
-  publicPath: '/yourmoviehub/'
+  publicPath: "http://pniedziela.github.io/YourMovieHub"
 }
