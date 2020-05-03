@@ -235,15 +235,15 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-        <v-row class="text-center" style=" margin-left: auto; margin-right: auto; margin:5px; float: left; border:5px solid;">
+<!--        <p class="text-center white&#45;&#45;text" >Filmy specjalnie dla Ciebie!</p>-->
+        <v-row class="text-center" style=" margin-left: 15%; margin-right: 10%; margin:5px; border:5px solid;">
           <div v-for="(movie, movieKey) in moviesList.Search" :key="movieKey" v-bind:class="{'selected':current === movie}" v-on:click="setCurrent(movie)" >
-<!--            <div class="column">-->
+            <div class="column">
               <v-img class="mdi-image" style="width: 100%;" v-bind:src="movie.Poster" @click="InfoDialog = true"></v-img>
               <div id="toSelect" class="title white--text" style="color: darkgray">{{movie.Title}}</div>
-<!--            </div>-->
+            </div>
           </div>
         </v-row>
-<!--        </div>-->
       </div>
       </body>
 
