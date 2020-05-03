@@ -228,7 +228,7 @@
                       :color="color"
                       :background-color="bgColor"
               ></v-rating>
-              <div class="title white--text" style="color: darkgray">Średnia ocena: {{meanRating}}/5</div>
+              <div class="title grey--text" style="color: darkgray">Średnia ocena: {{meanRating}}/5</div>
               <v-spacer></v-spacer>
               <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text @click="commentDialog = true">Komentarze</v-btn>
               <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1" text @click="InfoDialog = false, rateMovie()">Zamknij</v-btn>
