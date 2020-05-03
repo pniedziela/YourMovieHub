@@ -399,7 +399,7 @@
       },
       searchMovies()
       {
-        var url = 'http://www.omdbapi.com/?s=' + this.searchKey + '&apikey=8dc936a1&';
+        var url = 'https://www.omdbapi.com/?s=' + this.searchKey + '&apikey=8dc936a1&';
         fetch(url)
                 .then(response=>response.json())
                 .then(data=>{
@@ -410,7 +410,7 @@
       loadRandom()
       {
         const randomElement = this.randomkeywords[Math.floor(Math.random() * this.randomkeywords.length)];
-        var url = 'http://www.omdbapi.com/?s=' + randomElement + '&apikey=8dc936a1&';
+        var url = 'https://www.omdbapi.com/?s=' + randomElement + '&apikey=8dc936a1&';
         fetch(url)
                 .then(response=>response.json())
                 .then(data=>{
@@ -420,7 +420,7 @@
       },
       setCurrent(movie)
       {
-        var url = 'http://www.omdbapi.com/?i=' + movie.imdbID + '&apikey=8dc936a1&';
+        var url = 'https://www.omdbapi.com/?i=' + movie.imdbID + '&apikey=8dc936a1&';
         fetch(url)
                 .then(response=>response.json())
                 .then(data=>{
@@ -435,7 +435,7 @@
       searchOnlyMovies()
       {
         const randomElement = this.randomMovies[Math.floor(Math.random() * this.randomMovies.length)];
-        var url = 'http://www.omdbapi.com/?s=' + randomElement + '&apikey=8dc936a1&type=movie';
+        var url = 'https://www.omdbapi.com/?s=' + randomElement + '&apikey=8dc936a1&type=movie';
         fetch(url)
                 .then(response=>response.json())
                 .then(data=>{
@@ -445,7 +445,7 @@
       },
       searchSerials() {
         const randomElement = this.randomSerials[Math.floor(Math.random() * this.randomSerials.length)];
-        var url = 'http://www.omdbapi.com/?s=' + randomElement + '&apikey=8dc936a1&type=series';
+        var url = 'https://www.omdbapi.com/?s=' + randomElement + '&apikey=8dc936a1&type=series';
         fetch(url)
                 .then(response => response.json())
                 .then(data => {
@@ -456,7 +456,7 @@
       loadStayHome()
       {
         const randomElement = this.randomStayHome[Math.floor(Math.random() * this.randomStayHome.length)];
-        var url = 'http://www.omdbapi.com/?s=' + randomElement + '&apikey=8dc936a1&';
+        var url = 'https://www.omdbapi.com/?s=' + randomElement + '&apikey=8dc936a1&';
         fetch(url)
                 .then(response=>response.json())
                 .then(data=>{
