@@ -235,14 +235,18 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-        <div class="row" style="margin:5px; float: left; border:5px solid;">
+<!--        <div class="row" style="margin:5px; float: left; border:5px solid;">-->
+        <v-layout row wrap>
           <div v-for="(movie, movieKey) in moviesList.Search" :key="movieKey" v-bind:class="{'selected':current === movie}" v-on:click="setCurrent(movie)" >
-            <div class="column">
+<!--            <div class="column">-->
+            <v-flex xs12 sm11>
               <v-img class="mdi-image" style="width: 100%;" v-bind:src="movie.Poster" @click="InfoDialog = true"></v-img>
               <div id="toSelect" class="title white--text" style="color: darkgray">{{movie.Title}}</div>
-            </div>
+<!--            </div>-->
+            </v-flex>
           </div>
-        </div>
+        </v-layout>
+<!--        </div>-->
       </div>
       </body>
 
@@ -399,7 +403,7 @@
       },
       searchMovies()
       {
-        var url = 'https://www.omdbapi.com/?s=' + this.searchKey + '&apikey=8dc936a1&';
+        var url = 'http://www.omdbapi.com/?s=' + this.searchKey + '&apikey=8dc936a1&';
         fetch(url)
                 .then(response=>response.json())
                 .then(data=>{
@@ -410,7 +414,7 @@
       loadRandom()
       {
         const randomElement = this.randomkeywords[Math.floor(Math.random() * this.randomkeywords.length)];
-        var url = 'https://www.omdbapi.com/?s=' + randomElement + '&apikey=8dc936a1&';
+        var url = 'http://www.omdbapi.com/?s=' + randomElement + '&apikey=8dc936a1&';
         fetch(url)
                 .then(response=>response.json())
                 .then(data=>{
@@ -420,7 +424,7 @@
       },
       setCurrent(movie)
       {
-        var url = 'https://www.omdbapi.com/?i=' + movie.imdbID + '&apikey=8dc936a1&';
+        var url = 'http://www.omdbapi.com/?i=' + movie.imdbID + '&apikey=8dc936a1&';
         fetch(url)
                 .then(response=>response.json())
                 .then(data=>{
@@ -435,7 +439,7 @@
       searchOnlyMovies()
       {
         const randomElement = this.randomMovies[Math.floor(Math.random() * this.randomMovies.length)];
-        var url = 'https://www.omdbapi.com/?s=' + randomElement + '&apikey=8dc936a1&type=movie';
+        var url = 'http://www.omdbapi.com/?s=' + randomElement + '&apikey=8dc936a1&type=movie';
         fetch(url)
                 .then(response=>response.json())
                 .then(data=>{
@@ -445,7 +449,7 @@
       },
       searchSerials() {
         const randomElement = this.randomSerials[Math.floor(Math.random() * this.randomSerials.length)];
-        var url = 'https://www.omdbapi.com/?s=' + randomElement + '&apikey=8dc936a1&type=series';
+        var url = 'http://www.omdbapi.com/?s=' + randomElement + '&apikey=8dc936a1&type=series';
         fetch(url)
                 .then(response => response.json())
                 .then(data => {
@@ -456,7 +460,7 @@
       loadStayHome()
       {
         const randomElement = this.randomStayHome[Math.floor(Math.random() * this.randomStayHome.length)];
-        var url = 'https://www.omdbapi.com/?s=' + randomElement + '&apikey=8dc936a1&';
+        var url = 'http://www.omdbapi.com/?s=' + randomElement + '&apikey=8dc936a1&';
         fetch(url)
                 .then(response=>response.json())
                 .then(data=>{
