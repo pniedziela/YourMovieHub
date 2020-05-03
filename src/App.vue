@@ -235,17 +235,14 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-<!--        <div class="row" style="margin:5px; float: left; border:5px solid;">-->
-        <v-layout row wrap>
+        <v-row class="text-center" style=" margin-left: auto; margin-right: auto; margin:5px; float: left; border:5px solid;">
           <div v-for="(movie, movieKey) in moviesList.Search" :key="movieKey" v-bind:class="{'selected':current === movie}" v-on:click="setCurrent(movie)" >
 <!--            <div class="column">-->
-            <v-flex xs12 sm11>
               <v-img class="mdi-image" style="width: 100%;" v-bind:src="movie.Poster" @click="InfoDialog = true"></v-img>
               <div id="toSelect" class="title white--text" style="color: darkgray">{{movie.Title}}</div>
 <!--            </div>-->
-            </v-flex>
           </div>
-        </v-layout>
+        </v-row>
 <!--        </div>-->
       </div>
       </body>
