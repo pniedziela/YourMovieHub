@@ -350,7 +350,7 @@
         return this.$store.getters.loadedRatings
       },
       meanRating(){        
-        return this.rate/this.count
+        return (this.rate/this.count).toFixed(2)
       },
     },
     watch: {
