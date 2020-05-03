@@ -7,12 +7,12 @@
         <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1 hidden-md-and-up" text v-on="on" @click="signUpSmallMenu = true" >Menu</v-btn>
         <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1 hidden-md-and-up" text v-on="on" @click="searchSmallMenu = true" v-if="isAuthenticated">Wyszukaj</v-btn>
         <template v-if="isAuthenticated">
-          
-            <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1 hidden-sm-and-down" v-on:click="searchOnlyMovies">FILMY</v-btn>
-            <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1 hidden-sm-and-down" v-on:click="searchSerials">SERIALE</v-btn>
-            <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1 hidden-sm-and-down" v-on:click="loadRandom">POLECANE</v-btn>
-            <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1 hidden-sm-and-down" v-on:click="loadStayHome">#ZOSTAŃ W DOMU</v-btn>
-          
+
+          <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1 hidden-sm-and-down" v-on:click="searchOnlyMovies">FILMY</v-btn>
+          <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1 hidden-sm-and-down" v-on:click="searchSerials">SERIALE</v-btn>
+          <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1 hidden-sm-and-down" v-on:click="loadRandom">POLECANE</v-btn>
+          <v-btn depressed large class="light-blue white--text btn btn-outline-primary mr-1 hidden-sm-and-down" v-on:click="loadStayHome">#ZOSTAŃ W DOMU</v-btn>
+
           <input class="white--text hidden-sm-and-down" type="text" v-model="searchKey" placeholder="Wyszukaj film,serial"/>
           <v-btn depressed large class="light-blue white--text hidden-sm-and-down" v-on:click="searchMovies">Szukaj</v-btn>
         </template>
@@ -260,7 +260,6 @@
 </template>
 
 <script>
-
   export default {
     name: 'App',
     mounted:function(){
@@ -301,7 +300,6 @@
           'cyan lighten-2',
           'grey lighten-1',
         ],
-
         signUpEmail: '',
         signUpPassword: '',
         confirmPassword: '',
@@ -322,10 +320,10 @@
         posters: 'url(https://www.bu.edu/files/2020/02/Oscar-Predictions-Posters.jpg)',
         searchKey:'',
         moviesList:[],
-        randomkeywords:['Shaman','Lord','Capitan','Super','naruto'],
-        randomSerials:['Arrow','office','friends'],
-        randomMovies:['Superman','Batman','Avengers'],
-        randomStayHome:['Naruto','Bleach'],
+        randomkeywords:['Godzilla','Superman','naruto','Iron Man','Guardians'],
+        randomSerials:['friends', 'Mother'],
+        randomMovies:['Superman','Batman','Avengers','Iron man','X-men','Fast and furious'],
+        randomStayHome:['Bleach','life'],
         current: [],
         commentsForCurrent: [],
       }
@@ -349,7 +347,7 @@
       ratingsFromDB() {
         return this.$store.getters.loadedRatings
       },
-      meanRating(){        
+      meanRating(){
         return (this.rate/this.count).toFixed(2)
       },
     },
@@ -363,15 +361,15 @@
     methods: {
       onComment(){
         this.$store.dispatch('createComment', {content: this.comment, movie: this.current.Title}).then(()=>
-        {  
+        {
           const newComment = {
-          content: this.comment,
-          movie: this.current.Title,
-          user: this.user
-        }
+            content: this.comment,
+            movie: this.current.Title,
+            user: this.user
+          }
           this.commentsForCurrent.push(newComment)
-          this.comment = "" 
-                    
+          this.comment = ""
+
         })
       },
       onSignup () {
@@ -419,7 +417,6 @@
                   this.moviesList=data;
                 })
         this.signUpSmallMenu = false
-
       },
       setCurrent(movie)
       {
@@ -434,7 +431,6 @@
                   this. count = 0
                   this.calculateRateForCurrent()
                 })
-
       },
       searchOnlyMovies()
       {
@@ -471,42 +467,42 @@
       rateMovie(){
         if(this.rating !== 0 && this.rating !== this.currentRating) {
           this.$store.dispatch('addRating', {rating: this.rating, movie: this.current.Title}).then(()=>
-        {
-          this.rating = 0
-        })
-        }        
+          {
+            this.rating = 0
+          })
+        }
       } ,
-      setRatingForCurrent() {         
-          for (let i=0;i<this.ratingsFromDB.length;i++){
-                    if(this.ratingsFromDB[i].movie === this.current.Title && this.ratingsFromDB[i].user === this.user)
-                    {
-                     this.rating = this.ratingsFromDB[i].rating
-                     this.currentRating = this.ratingsFromDB[i].rating
-                    }
-                  }
+      setRatingForCurrent() {
+        for (let i=0;i<this.ratingsFromDB.length;i++){
+          if(this.ratingsFromDB[i].movie === this.current.Title && this.ratingsFromDB[i].user === this.user)
+          {
+            this.rating = this.ratingsFromDB[i].rating
+            this.currentRating = this.ratingsFromDB[i].rating
+          }
+        }
       },
       setCommentsForCurrent(){
         this.commentsForCurrent = []
-                  for (let i=0;i<this.commentsFromDB.length;i++){                   
-                    if(this.commentsFromDB[i].movie == this.current.Title)
-                    {
-                      console.log(this.commentsFromDB[i].movie)
-                      this.commentsForCurrent.push(this.commentsFromDB[i])
-                    }
-                  }
+        for (let i=0;i<this.commentsFromDB.length;i++){
+          if(this.commentsFromDB[i].movie == this.current.Title)
+          {
+            console.log(this.commentsFromDB[i].movie)
+            this.commentsForCurrent.push(this.commentsFromDB[i])
+          }
+        }
       },
       calculateRateForCurrent(){
         for (let i=0;i<this.ratingsFromDB.length;i++){
-                    if(this.ratingsFromDB[i].movie === this.current.Title)
-                    {
-                     this.rate += this.ratingsFromDB[i].rating
-                     this.count += 1
-                    }
-                  }
-                  if(this.count === 0){
-                    this.count = 1
-                  }
-      }           
+          if(this.ratingsFromDB[i].movie === this.current.Title)
+          {
+            this.rate += this.ratingsFromDB[i].rating
+            this.count += 1
+          }
+        }
+        if(this.count === 0){
+          this.count = 1
+        }
+      }
     }
   }
 </script>
